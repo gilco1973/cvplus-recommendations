@@ -3,15 +3,38 @@ import { resolve } from 'path';
 
 export default defineConfig({
   test: {
-    globals: true,
     environment: 'node',
-    setupFiles: [],
-    include: ['src/**/*.test.ts', 'src/**/*.spec.ts'],
-    exclude: ['node_modules', 'dist']
+    setupFiles: ['src/__tests__/setup.ts'],
+    globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/**',
+        'src/__tests__/**',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        'dist/**',
+        'coverage/**',
+      ],
+      thresholds: {
+        global: {
+          branches: 85,
+          functions: 85,
+          lines: 85,
+          statements: 85,
+        },
+      },
+    },
+    testTimeout: 30000,
+    hookTimeout: 30000,
+    isolate: true,
+    pool: 'threads',
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(__dirname, './src'),
+      '@tests': resolve(__dirname, './src/__tests__'),
       '@cvplus/core': resolve(__dirname, '../core/src')
     }
   },

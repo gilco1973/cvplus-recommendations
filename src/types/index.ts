@@ -12,37 +12,65 @@
 export interface CVParsedData {
   personalInfo: {
     name: string;
+    title?: string; // Add title field
     email: string;
     phone: string;
     location: string;
     summary?: string;
   };
+  summary?: string; // Add top-level summary
   professionalSummary: string;
-  workExperience: Array<{
-    title: string;
-    company: string;
-    duration: string;
-    description: string;
-    responsibilities?: string[];
-    achievements?: string[];
-    skills?: string[];
-  }>;
-  education: Array<{
-    degree: string;
-    institution: string;
-    year: string;
-  }>;
+  experience: WorkExperience[]; // Use the proper interface
+  workExperience: WorkExperience[]; // Keep both for compatibility
+  education: Education[];
   skills: Array<{
     name: string;
     skills: string[];
   }> | string[];
   achievements: string[];
-  certifications: Array<{
-    name: string;
-    issuer: string;
-    date: string;
-  }>;
+  certifications: Certification[];
 }
+
+// Additional types for career development service
+export interface Skill {
+  name: string;
+  level: SkillLevel;
+  category?: SkillCategory;
+  yearsOfExperience?: number;
+}
+
+export interface WorkExperience {
+  title: string;
+  position?: string;
+  company: string;
+  startDate: string;
+  endDate?: string;
+  duration: string;
+  description: string;
+  responsibilities?: string[];
+  achievements?: string[];
+  skills?: string[];
+  isCurrent?: boolean;
+}
+
+export interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+  gpa?: string;
+  honors?: string[];
+}
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  date: string;
+  expiryDate?: string;
+  credentialId?: string;
+}
+
+export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+export type SkillCategory = 'technical' | 'soft' | 'language' | 'certification' | 'tool';
 
 export interface ApiResponse<T = any> {
   success: boolean;
@@ -109,10 +137,11 @@ export enum CVSection {
 
 export enum ActionType {
   ADD = 'add',
-  MODIFY = 'modify',
+  MODIFY = 'modify', 
   REMOVE = 'remove',
   REFORMAT = 'reformat',
-  REORGANIZE = 'reorganize'
+  REORGANIZE = 'reorganize',
+  RESTRUCTURE = 'restructure'
 }
 
 export enum ImpactLevel {

@@ -34,7 +34,7 @@ import type {
   WorkExperience,
   Education,
   Certification
-} from '@cvplus/core';
+} from '../types';
 
 // ============================================================================
 // CAREER DEVELOPMENT TYPES
@@ -369,20 +369,32 @@ export class CareerDevelopmentService {
     
     // Get the most recent position
     const currentJob = cvData.workExperience
-      .filter(exp => exp.isCurrent)
-      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())[0];
+      .filter((exp: WorkExperience) => exp.isCurrent)
+      .sort((a: WorkExperience, b: WorkExperience) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())[0];
     
     return currentJob?.position || cvData.workExperience[0]?.position || null;
   }
 
   private extractAllSkills(cvData: CVParsedData): string[] {
-    return cvData.skills.flatMap(group => group.skills.map(skill => skill.name.toLowerCase()));
+    if (Array.isArray(cvData.skills)) {
+      // Handle both string[] and object[] formats
+      return cvData.skills.flatMap(skill => {
+        if (typeof skill === 'string') {
+          return skill.toLowerCase();
+        }
+        if (typeof skill === 'object' && skill.skills) {
+          return skill.skills.map((s: string) => s.toLowerCase());
+        }
+        return [];
+      });
+    }
+    return [];
   }
 
   private calculateTotalExperience(cvData: CVParsedData): number {
     let totalMonths = 0;
     
-    cvData.workExperience.forEach(exp => {
+    cvData.workExperience.forEach((exp: WorkExperience) => {
       const startDate = new Date(exp.startDate);
       const endDate = exp.endDate ? new Date(exp.endDate) : new Date();
       const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + 
@@ -545,7 +557,7 @@ export class CareerDevelopmentService {
   private detectIndustry(cvData: CVParsedData): string {
     const allText = [
       cvData.personalInfo.summary || '',
-      ...cvData.workExperience.flatMap(exp => [exp.company, exp.position, ...exp.responsibilities])
+      ...cvData.workExperience.flatMap((exp: WorkExperience) => [exp.company, exp.position || exp.title, ...(exp.responsibilities || [])])
     ].join(' ').toLowerCase();
     
     const industryKeywords = {
