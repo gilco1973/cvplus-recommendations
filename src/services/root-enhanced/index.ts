@@ -22,7 +22,7 @@ export { TransformationApplier } from './TransformationApplier';
 // Caching and performance
 export { CacheManager } from './CacheManager';
 export { CacheKeyManager } from './CacheKeyManager';
-export { CircuitBreakerCore } from './CircuitBreakerCore';
+export { CircuitBreaker, CircuitBreakerManager } from './CircuitBreakerCore';
 export { RetryManager } from './RetryManager';
 export { TimeoutManager } from './TimeoutManager';
 

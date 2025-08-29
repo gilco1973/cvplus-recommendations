@@ -39,7 +39,7 @@ export interface PlaceholderManager {
  * This service provides minimal functionality until full migration
  */
 export class CVTransformationService {
-  static async transformCV(cvData: CVParsedData, recommendations: Recommendation[]): Promise<CVParsedData> {
+  async transformCV(cvData: CVParsedData, recommendations: Recommendation[]): Promise<CVParsedData> {
     // Basic transformation - applies recommendations to CV data
     const transformedCV = { ...cvData };
     
@@ -48,10 +48,37 @@ export class CVTransformationService {
     return transformedCV;
   }
   
-  static async generateRecommendations(cvData: CVParsedData, targetRole?: string): Promise<Recommendation[]> {
+  async generateRecommendations(cvData: CVParsedData, targetRole?: string): Promise<Recommendation[]> {
     // Basic recommendation generation
     // TODO: Implement actual recommendation logic
     return [];
+  }
+  
+  async generateDetailedRecommendations(
+    cvData: CVParsedData, 
+    targetRole?: string, 
+    industryKeywords?: string[]
+  ): Promise<Recommendation[]> {
+    // Placeholder implementation
+    return this.generateRecommendations(cvData, targetRole);
+  }
+  
+  async generateRoleEnhancedRecommendations(
+    cvData: CVParsedData,
+    enhance: boolean = true,
+    targetRole?: string,
+    industryKeywords?: string[]
+  ): Promise<Recommendation[]> {
+    // Placeholder implementation
+    return this.generateRecommendations(cvData, targetRole);
+  }
+  
+  async applyRecommendations(
+    cvData: CVParsedData, 
+    recommendations: Recommendation[]
+  ): Promise<CVParsedData> {
+    // Placeholder implementation
+    return this.transformCV(cvData, recommendations);
   }
 }
 

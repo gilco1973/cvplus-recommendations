@@ -200,7 +200,7 @@ vi.mock('@cvplus/core', () => ({
 // ============================================================================
 
 // Set up global test defaults
-globalThis.__FIREBASE_DEFAULTS__ = {
+(globalThis as any).__FIREBASE_DEFAULTS__ = {
   projectId: 'test-project-id',
   storageBucket: 'test-bucket.appspot.com',
 };

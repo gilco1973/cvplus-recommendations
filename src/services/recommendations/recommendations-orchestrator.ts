@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-import { generateId } from '@cvplus/core';
+import { generateId } from '../../utils/core';
 import { CacheService } from '../cache.service';
 import { RecommendationsExecutor } from './recommendations-executor';
 import { PerformanceMetricsManager } from './performance-metrics-manager';

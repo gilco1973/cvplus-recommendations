@@ -1,4 +1,5 @@
 import { CVTransformationService, CVRecommendation, ParsedCV } from './compatibility';
+import { RecommendationType, RecommendationCategory, CVSection, ActionType, ImpactLevel } from '../../types';
 import { CircuitBreakerManager } from './CircuitBreakerCore';
 import { RetryManager } from './RetryManager';
 import { TimeoutManager } from './TimeoutManager';
@@ -101,14 +102,14 @@ export class RecommendationGenerator {
     if (!originalCV.personalInfo?.title || originalCV.personalInfo.title.length < 5) {
       recommendations.push({
         id: `${baseId}_title`,
-        type: 'content',
-        category: 'professional_summary',
-        section: 'Professional Title',
-        actionRequired: 'add',
+        type: RecommendationType.CONTENT,
+        category: RecommendationCategory.PROFESSIONAL_SUMMARY,
+        section: CVSection.PERSONAL_INFO,
+        actionRequired: ActionType.ADD,
         title: 'Add Professional Title',
         description: 'A clear professional title helps recruiters immediately understand your role and expertise level.',
         suggestedContent: 'Add a professional title that reflects your expertise and career level.',
-        impact: 'high',
+        impact: ImpactLevel.HIGH,
         priority: 1,
         estimatedScoreImprovement: 18
       });
@@ -118,14 +119,14 @@ export class RecommendationGenerator {
     if (!originalCV.personalInfo?.email || !originalCV.personalInfo?.phone) {
       recommendations.push({
         id: `${baseId}_contact`,
-        type: 'content',
-        category: 'ats_optimization',
-        section: 'Contact Information',
-        actionRequired: 'modify',
+        type: RecommendationType.CONTENT,
+        category: RecommendationCategory.ATS_OPTIMIZATION,
+        section: CVSection.PERSONAL_INFO,
+        actionRequired: ActionType.MODIFY,
         title: 'Complete Contact Information',
         description: 'Ensure all essential contact information is present and accessible to recruiters.',
         suggestedContent: 'Include professional email, phone number, LinkedIn profile, and location.',
-        impact: 'high',
+        impact: ImpactLevel.HIGH,
         priority: 1,
         estimatedScoreImprovement: 15
       });
@@ -135,14 +136,14 @@ export class RecommendationGenerator {
     if (!originalCV.achievements || originalCV.achievements.length === 0) {
       recommendations.push({
         id: `${baseId}_achievements`,
-        type: 'section_addition',
-        category: 'achievements',
-        section: 'Key Achievements',
-        actionRequired: 'add',
+        type: RecommendationType.SECTION_ADDITION,
+        category: RecommendationCategory.ACHIEVEMENTS,
+        section: CVSection.ACHIEVEMENTS,
+        actionRequired: ActionType.ADD,
         title: 'Add Key Achievements Section',
         description: 'Highlights your most impressive accomplishments and differentiates you from candidates.',
         suggestedContent: 'Create a "Key Achievements" section with 3-5 quantifiable accomplishments.',
-        impact: 'high',
+        impact: ImpactLevel.HIGH,
         priority: 2,
         estimatedScoreImprovement: 22
       });
@@ -162,14 +163,14 @@ export class RecommendationGenerator {
     if (!originalCV.summary || originalCV.summary.length < 50) {
       fallbackRecommendations.push({
         id: `${baseId}_summary_create`,
-        type: 'section_addition',
-        category: 'professional_summary',
-        section: 'Professional Summary',
-        actionRequired: 'add',
+        type: RecommendationType.SECTION_ADDITION,
+        category: RecommendationCategory.PROFESSIONAL_SUMMARY,
+        section: CVSection.PROFESSIONAL_SUMMARY,
+        actionRequired: ActionType.ADD,
         title: 'Create Compelling Professional Summary',
         description: 'Essential for making a strong first impression and improving ATS compatibility.',
         suggestedContent: 'Experienced professional with expertise in your field. Proven track record and key skills.',
-        impact: 'high',
+        impact: ImpactLevel.HIGH,
         priority: 1,
         estimatedScoreImprovement: 25
       });
@@ -179,14 +180,14 @@ export class RecommendationGenerator {
     if (originalCV.experience && originalCV.experience.length > 0) {
       fallbackRecommendations.push({
         id: `${baseId}_experience`,
-        type: 'content',
-        category: 'experience',
-        section: 'Experience',
-        actionRequired: 'modify',
+        type: RecommendationType.CONTENT,
+        category: RecommendationCategory.EXPERIENCE,
+        section: CVSection.EXPERIENCE,
+        actionRequired: ActionType.MODIFY,
         title: 'Add Quantifiable Achievements',
         description: 'Transform job descriptions into achievement-focused bullet points with measurable results.',
         suggestedContent: 'Use bullet points with quantifiable achievements, such as "Increased sales by 25%".',
-        impact: 'high',
+        impact: ImpactLevel.HIGH,
         priority: 1,
         estimatedScoreImprovement: 20
       });
@@ -195,14 +196,14 @@ export class RecommendationGenerator {
     // ATS optimization
     fallbackRecommendations.push({
       id: `${baseId}_ats_optimization`,
-      type: 'keyword_optimization',
-      category: 'ats_optimization',
-      section: 'Overall ATS Optimization',
-      actionRequired: 'modify',
+      type: RecommendationType.KEYWORD_OPTIMIZATION,
+      category: RecommendationCategory.ATS_OPTIMIZATION,
+      section: CVSection.SKILLS,
+      actionRequired: ActionType.MODIFY,
       title: 'Improve ATS Compatibility',
       description: 'Optimize your CV for Applicant Tracking Systems.',
       suggestedContent: 'Use standard section headings, include relevant keywords, use simple formatting.',
-      impact: 'high',
+      impact: ImpactLevel.HIGH,
       priority: 2,
       estimatedScoreImprovement: 15
     });

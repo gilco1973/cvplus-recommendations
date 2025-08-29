@@ -4,12 +4,12 @@
 
 import { onCall, CallableRequest, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
-import { embeddingService } from '../services/embedding.service';
-import { chatService } from '../services/chat.service';
-import { enhancedDbService } from '../services/enhanced-db.service';
-import { EnhancedJob, UserRAGProfile } from '../types/enhanced-models';
+import { embeddingService } from '../../services/embedding.service';
+import { chatService } from '../../services/chat.service';
+import { enhancedDbService } from '../../services/enhanced-db.service';
+import { ParsedCV, EnhancedJob, UserRAGProfile } from '../../types/enhanced-models';
 import { nanoid } from 'nanoid';
-import { corsOptions } from '../config/cors';
+import { corsOptions } from '../../config/cors';
 
 /**
  * Initialize RAG for a CV

@@ -1,6 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { ParsedCV } from '../../types/job';
-import { CVRecommendation } from '../cv-transformation.service';
+import { JobMatch } from '../../types/job';
+import { Recommendation } from '../../types';
+import { ParsedCV } from './compatibility';
 
 /**
  * CVAnalyzer - Handles CV analysis and validation logic
@@ -66,7 +67,7 @@ export class CVAnalyzer {
   async validateJobAccess(jobId: string, userId: string): Promise<{
     jobData: any;
     originalCV: ParsedCV;
-    existingRecommendations: CVRecommendation[];
+    existingRecommendations: Recommendation[];
   }> {
     const jobDoc = await this.db.collection('jobs').doc(jobId).get();
     if (!jobDoc.exists) {
@@ -105,8 +106,8 @@ export class CVAnalyzer {
    */
   validateSelectedRecommendations(
     selectedRecommendationIds: string[],
-    storedRecommendations: CVRecommendation[]
-  ): CVRecommendation[] {
+    storedRecommendations: Recommendation[]
+  ): Recommendation[] {
     if (!Array.isArray(selectedRecommendationIds)) {
       throw new Error('Selected recommendation IDs array is required');
     }
@@ -125,7 +126,7 @@ export class CVAnalyzer {
   /**
    * Validates recommendation quality and completeness
    */
-  validateRecommendationQuality(recommendations: CVRecommendation[]): CVRecommendation[] {
+  validateRecommendationQuality(recommendations: Recommendation[]): Recommendation[] {
     return recommendations.map(rec => {
       // Ensure all required fields are present with fallback values
       return {
@@ -141,7 +142,7 @@ export class CVAnalyzer {
   /**
    * Sanitizes recommendations for Firestore storage
    */
-  sanitizeRecommendationsForStorage(recommendations: CVRecommendation[]): CVRecommendation[] {
+  sanitizeRecommendationsForStorage(recommendations: Recommendation[]): Recommendation[] {
     return recommendations.map((rec: any) => {
       const sanitizedRec = { ...rec };
       

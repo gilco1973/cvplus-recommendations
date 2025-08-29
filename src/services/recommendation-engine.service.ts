@@ -661,6 +661,7 @@ export class RecommendationEngineService {
     const sectionScores: Record<CVSection, number> = {
       [CVSection.PERSONAL_INFO]: 85,
       [CVSection.PROFESSIONAL_SUMMARY]: 70,
+      [CVSection.SUMMARY]: 70,
       [CVSection.EXPERIENCE]: 75,
       [CVSection.SKILLS]: 70,
       [CVSection.EDUCATION]: 80,
@@ -685,6 +686,7 @@ export class RecommendationEngineService {
     const weights = {
       [CVSection.PERSONAL_INFO]: 0.05,
       [CVSection.PROFESSIONAL_SUMMARY]: this.scoringWeights.professionalSummary,
+      [CVSection.SUMMARY]: 0.15, // Same weight as professional summary
       [CVSection.EXPERIENCE]: this.scoringWeights.experience,
       [CVSection.SKILLS]: this.scoringWeights.skills,
       [CVSection.EDUCATION]: this.scoringWeights.education,

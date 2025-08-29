@@ -29,6 +29,17 @@ export interface CVParsedData {
   }> | string[];
   achievements: string[];
   certifications: Certification[];
+  languages?: string[];
+  projects?: string[];
+  // Extended properties for transformation results
+  improvedCV?: CVParsedData;
+  appliedRecommendations?: string[];
+  transformationSummary?: {
+    totalChanges: number;
+    sectionsModified: string[];
+    estimatedImprovementScore: number;
+  };
+  comparisonReport?: any;
 }
 
 // Additional types for career development service
@@ -125,6 +136,7 @@ export enum RecommendationCategory {
 export enum CVSection {
   PERSONAL_INFO = 'personal_info',
   PROFESSIONAL_SUMMARY = 'professional_summary',
+  SUMMARY = 'summary',
   EXPERIENCE = 'experience',
   SKILLS = 'skills',
   EDUCATION = 'education',

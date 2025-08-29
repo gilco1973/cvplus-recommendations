@@ -28,6 +28,7 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix"
+    "validate-dependencies": "./scripts/validate-dependencies.sh",
   },
   "dependencies": {
     "@cvplus/core": "file:../core",

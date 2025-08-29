@@ -50,18 +50,18 @@ export class TransformationApplier {
       // Save to database
       await this.db.collection('jobs').doc(jobId).update(updateData);
 
-      console.log(`✅ Successfully applied ${transformationResult.appliedRecommendations.length} improvements`);
+      console.log(`✅ Successfully applied ${transformationResult.appliedRecommendations?.length || 0} improvements`);
 
       return {
         success: true,
         data: {
           jobId,
           improvedCV: transformationResult.improvedCV,
-          appliedRecommendations: transformationResult.appliedRecommendations,
+          appliedRecommendations: transformationResult.appliedRecommendations || [],
           transformationSummary: transformationResult.transformationSummary,
           comparisonReport: transformationResult.comparisonReport,
           improvementsApplied: true,
-          message: `Successfully applied ${transformationResult.appliedRecommendations.length} improvements`
+          message: `Successfully applied ${transformationResult.appliedRecommendations?.length || 0} improvements`
         }
       };
     } catch (error: any) {

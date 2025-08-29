@@ -11,7 +11,8 @@ import OpenAI from 'openai';
 import * as admin from 'firebase-admin';
 import { config } from '../config/environment';
 import { ParsedCV } from '../types/enhanced-models';
-import { RAGEmbedding, EmbeddingMetadata, CVSection, ContentType } from '../types/portal';
+import { RAGEmbedding, EmbeddingMetadata, ContentType } from '../types/portal';
+import { CVSection } from '../types';
 import { logger } from 'firebase-functions';
 import { ChunkingUtils, ChunkResult } from './cv-generator/chunking/ChunkingUtils';
 import { EmbeddingHelpers } from './cv-generator/embedding/EmbeddingHelpers';
@@ -165,14 +166,21 @@ export class EmbeddingService {
         id: `embed-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         content: text,
         metadata: metadata || {
+          sourceDocument: 'cv-content',
+          documentType: ContentType.CV_SECTION,
           section: CVSection.SUMMARY,
+          chunkIndex: 0,
+          wordCount: text.length,
+          confidence: 1.0,
           importance: 1.0,
           tags: [],
           source: 'summary'
         },
+        embedding: response.data[0].embedding,
         vector: response.data[0].embedding,
         tokens: EmbeddingHelpers.estimateTokenCount(text),
-        createdAt: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
     } catch (error) {
       logger.error('[EMBEDDING-SERVICE] Single embedding failed', { error });
@@ -183,7 +191,7 @@ export class EmbeddingService {
   /**
    * Intelligent text chunking
    */
-  chunkText(text: string, options?: Partial<ChunkingOptions>): ChunkResult[] {
+  chunkText(text: string, options?: Partial<ChunkingOptions>): ChunkResult {
     const config = {
       strategy: 'semantic' as const,
       maxTokens: 500,
@@ -195,13 +203,13 @@ export class EmbeddingService {
 
     switch (config.strategy) {
       case 'semantic':
-        return ChunkingUtils.semanticChunking(text, config);
+        return ChunkingUtils.semanticChunking(text, config.maxTokens);
       case 'fixed-size':
-        return ChunkingUtils.fixedSizeChunking(text, config);
+        return ChunkingUtils.fixedSizeChunking(text, config.maxTokens);
       case 'sliding-window':
-        return ChunkingUtils.slidingWindowChunking(text, config);
+        return ChunkingUtils.slidingWindowChunking(text, config.maxTokens, config.overlap);
       default:
-        return ChunkingUtils.semanticChunking(text, config);
+        return ChunkingUtils.semanticChunking(text, config.maxTokens);
     }
   }
 
@@ -257,17 +265,19 @@ export class EmbeddingService {
       const queryEmbedding = await this.generateSingleEmbedding(query);
       
       // Use vector database for improved performance if available
-      if (embeddings.length > 100) {
+      if (embeddings.length > 100 && queryEmbedding.vector) {
         return await this.searchWithVectorDatabase(queryEmbedding.vector, embeddings, topK);
       }
       
       // Fallback to in-memory search for smaller datasets
-      const similarities = embeddings.map((embedding, index) => {
-        const similarity = this.cosineSimilarity(queryEmbedding.vector, embedding.vector);
-        const relevanceScore = EmbeddingHelpers.calculateRelevanceScore(similarity, embedding.metadata);
-        
-        return { embedding, similarity, relevanceScore, rank: index };
-      });
+      const similarities = embeddings
+        .filter(embedding => embedding.vector && queryEmbedding.vector)
+        .map((embedding, index) => {
+          const similarity = this.cosineSimilarity(queryEmbedding.vector!, embedding.vector!);
+          const relevanceScore = EmbeddingHelpers.calculateRelevanceScore(similarity, embedding.metadata);
+          
+          return { embedding, similarity, relevanceScore, rank: index };
+        });
       
       return similarities
         .sort((a, b) => b.relevanceScore - a.relevanceScore)
@@ -290,27 +300,27 @@ export class EmbeddingService {
   ): Promise<SimilarityResult[]> {
     try {
       // Convert RAGEmbeddings to VectorInputs for the database
-      const vectorInputs: VectorInput[] = embeddings.map(embedding => ({
-        id: embedding.id,
-        content: embedding.content,
-        vector: embedding.vector,
-        metadata: {
-          ...embedding.metadata,
-          createdAt: embedding.createdAt,
-          keywords: this.extractKeywords(embedding.content)
-        }
-      }));
+      const vectorInputs: VectorInput[] = embeddings
+        .filter(embedding => embedding.vector)
+        .map(embedding => ({
+          id: embedding.id,
+          content: embedding.content,
+          vector: embedding.vector!,
+          metadata: {
+            ...embedding.metadata,
+            createdAt: embedding.createdAt,
+            keywords: this.extractKeywords(embedding.content)
+          }
+        }));
 
       // Add vectors to database (temporary for search)
       const tempVectorIds = await vectorDatabase.addVectors(vectorInputs);
 
       // Perform search with enhanced options
       const searchOptions: Partial<SearchOptions> = {
-        algorithm: 'cosine',
         topK,
         threshold: 0.1,
-        includeMetadata: true,
-        useCache: true
+        includeMetadata: true
       };
 
       const results = await vectorDatabase.search(queryVector, searchOptions);
@@ -321,19 +331,24 @@ export class EmbeddingService {
       }
 
       // Convert back to SimilarityResult format
-      return results.map(result => ({
-        embedding: {
-          id: result.id,
-          content: result.content,
-          metadata: result.metadata,
-          vector: embeddings.find(e => e.id === result.id)?.vector || [],
-          tokens: result.content.split(' ').length,
-          createdAt: result.metadata.createdAt
-        },
-        similarity: result.similarity,
-        relevanceScore: EmbeddingHelpers.calculateRelevanceScore(result.similarity, result.metadata),
-        rank: result.rank
-      }));
+      return results.map((result: any) => {
+        const originalEmbedding = embeddings.find((e: any) => e.id === result.id);
+        return {
+          embedding: {
+            id: result.id,
+            content: result.content,
+            embedding: originalEmbedding?.embedding || originalEmbedding?.vector || [],
+            vector: originalEmbedding?.vector,
+            metadata: result.metadata,
+            tokens: result.content.split(' ').length,
+            createdAt: result.metadata.createdAt,
+            updatedAt: originalEmbedding?.updatedAt || new Date()
+          },
+          similarity: result.similarity,
+          relevanceScore: EmbeddingHelpers.calculateRelevanceScore(result.similarity, result.metadata),
+          rank: result.rank
+        };
+      });
 
     } catch (error) {
       logger.error('[EMBEDDING-SERVICE] Vector database search failed', { error });
@@ -352,15 +367,17 @@ export class EmbeddingService {
         namespace
       });
 
-      const vectorInputs: VectorInput[] = embeddings.map(embedding => ({
-        id: `${namespace}_${embedding.id}`,
-        content: embedding.content,
-        vector: embedding.vector,
-        metadata: {
-          ...embedding.metadata,
-          createdAt: embedding.createdAt,
-          keywords: this.extractKeywords(embedding.content)
-        }
+      const vectorInputs: VectorInput[] = embeddings
+        .filter(embedding => embedding.vector)
+        .map(embedding => ({
+          id: `${namespace}_${embedding.id}`,
+          content: embedding.content,
+          vector: embedding.vector!,
+          metadata: {
+            ...embedding.metadata,
+            createdAt: embedding.createdAt,
+            keywords: this.extractKeywords(embedding.content)
+          }
       }));
 
       const vectorIds = await vectorDatabase.addVectors(vectorInputs);
@@ -395,30 +412,34 @@ export class EmbeddingService {
       const queryEmbedding = await this.generateSingleEmbedding(query);
       
       const searchOptions: Partial<SearchOptions> = {
-        algorithm: 'cosine',
         topK: 10,
         threshold: 0.3,
         includeMetadata: true,
-        useCache: true,
         ...options
       };
 
+      if (!queryEmbedding.vector) {
+        throw new Error('Failed to generate query embedding vector');
+      }
+      
       const results = await vectorDatabase.search(queryEmbedding.vector, searchOptions);
 
       // Filter by namespace if specified
       const filteredResults = namespace 
-        ? results.filter(result => result.id.startsWith(`${namespace}_`))
+        ? results.filter((result: any) => result.id.startsWith(`${namespace}_`))
         : results;
 
       // Convert to SimilarityResult format
-      return filteredResults.map(result => ({
+      return filteredResults.map((result: any) => ({
         embedding: {
           id: result.id.replace(`${namespace}_`, ''),
           content: result.content,
-          metadata: result.metadata,
+          embedding: [], // Vector not needed in response
           vector: [], // Vector not needed in response
+          metadata: result.metadata,
           tokens: result.content.split(' ').length,
-          createdAt: result.metadata.createdAt
+          createdAt: result.metadata.createdAt,
+          updatedAt: result.metadata.updatedAt || new Date()
         },
         similarity: result.similarity,
         relevanceScore: EmbeddingHelpers.calculateRelevanceScore(result.similarity, result.metadata),
@@ -505,7 +526,9 @@ export class EmbeddingService {
     }
 
     // Generate embeddings
-    const texts = allChunks.map(chunk => chunk.content);
+    const texts = allChunks
+      .filter(chunk => chunk.content)
+      .map(chunk => chunk.content!);
     const embeddings = await this.generateEmbeddings(texts);
     
     // Enhance with chunk metadata
@@ -517,7 +540,7 @@ export class EmbeddingService {
     return {
       embeddings: enhancedEmbeddings,
       totalChunks: allChunks.length,
-      totalTokens: allChunks.reduce((sum, chunk) => sum + chunk.tokenCount, 0),
+      totalTokens: allChunks.reduce((sum, chunk) => sum + (chunk.tokenCount || 0), 0),
       processingTime: Date.now() - startTime,
       sectionsProcessed
     };
@@ -568,6 +591,8 @@ export class EmbeddingService {
           return {
             id: chunk.id || `${jobId}_chunk_${index}`,
             content: chunk.content,
+            embedding: chunk.embedding,
+            vector: chunk.embedding,
             metadata: chunk.metadata || {
               section: 'experience' as CVSection,
               subsection: 'auto-generated',
@@ -575,15 +600,17 @@ export class EmbeddingService {
               importance: 0.5,
               position: index
             },
-            vector: chunk.embedding,
             tokens: chunk.content.split(' ').length,
-            createdAt: new Date()
+            createdAt: new Date(),
+            updatedAt: new Date()
           };
         } else {
           // Convert from chunk format
           return {
             id: `${jobId}_chunk_${index}`,
             content: chunk.content || chunk.text || '',
+            embedding: chunk.vector || chunk.embedding || [],
+            vector: chunk.vector || chunk.embedding || [],
             metadata: {
               section: chunk.section || 'experience' as CVSection,
               subsection: chunk.subsection || 'auto-generated',
@@ -591,9 +618,9 @@ export class EmbeddingService {
               importance: chunk.importance || 0.5,
               position: index
             },
-            vector: chunk.vector || chunk.embedding || [],
             tokens: (chunk.content || chunk.text || '').split(' ').length,
-            createdAt: new Date()
+            createdAt: new Date(),
+            updatedAt: new Date()
           };
         }
       });
@@ -656,27 +683,23 @@ export class EmbeddingService {
 
       // Search for vectors that match the namespace and jobId
       const searchResults = await vectorDatabase.search([], {
-        algorithm: 'cosine',
         topK: 10000, // Large number to get all matching vectors
-        threshold: 0,
-        useCache: false,
-        filters: {
-          // Note: This is a simplified approach. In production, you'd want
-          // more sophisticated namespace/jobId tracking
-        }
+        threshold: 0
+        // Note: This is a simplified approach. In production, you'd want
+        // more sophisticated namespace/jobId tracking
       });
 
       // Filter results by namespace prefix
       const namespacePrefix = `${vectorNamespace}_${jobId}`;
       const vectorsToDelete = searchResults
-        .filter(result => result.id.startsWith(namespacePrefix))
-        .map(result => result.id);
+        .filter((result: any) => result.id.startsWith(namespacePrefix))
+        .map((result: any) => result.id);
 
       // Delete vectors in batches to avoid overwhelming the system
       const batchSize = 100;
       for (let i = 0; i < vectorsToDelete.length; i += batchSize) {
         const batch = vectorsToDelete.slice(i, i + batchSize);
-        await Promise.all(batch.map(id => vectorDatabase.deleteVector(id)));
+        await Promise.all(batch.map((id: any) => vectorDatabase.deleteVector(id)));
       }
 
       logger.info('[EMBEDDING-SERVICE] Embeddings deleted successfully', {
@@ -702,10 +725,22 @@ export class EmbeddingService {
     return response.data.map((embedding, index) => ({
       id: `embed-${Date.now()}-${startIndex + index}`,
       content: texts[index],
-      metadata: { section: CVSection.SUMMARY, importance: 1.0, tags: [], source: 'summary' },
+      embedding: embedding.embedding,
       vector: embedding.embedding,
+      metadata: { 
+        sourceDocument: 'batch-process',
+        documentType: ContentType.CV_SECTION,
+        section: CVSection.SUMMARY, 
+        chunkIndex: startIndex + index,
+        wordCount: texts[index].length,
+        confidence: 1.0,
+        importance: 1.0, 
+        tags: [], 
+        source: 'summary' 
+      },
       tokens: EmbeddingHelpers.estimateTokenCount(texts[index]),
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     }));
   }
 }

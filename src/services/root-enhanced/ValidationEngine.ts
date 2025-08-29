@@ -1,4 +1,5 @@
 import { CVRecommendation, ParsedCV } from './compatibility';
+import { CVSection, ImpactLevel } from '../../types';
 
 /**
  * ValidationEngine - Handles validation logic for recommendations and CV data
@@ -125,14 +126,14 @@ export class ValidationEngine {
 
     if (!rec.section) {
       errors.push('Missing recommendation section');
-      recommendation.section = 'general';
+      recommendation.section = CVSection.PROFESSIONAL_SUMMARY;
     }
 
     // Validate enums
     const validImpacts = ['low', 'medium', 'high'];
     if (rec.impact && !validImpacts.includes(rec.impact)) {
       errors.push(`Invalid impact level: ${rec.impact}`);
-      recommendation.impact = 'medium';
+      recommendation.impact = ImpactLevel.MEDIUM;
     }
 
     const validTypes = ['content', 'structure', 'section_addition', 'keyword_optimization'];
