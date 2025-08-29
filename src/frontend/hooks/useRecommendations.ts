@@ -16,10 +16,14 @@ import type {
   GetRecommendationsParams,
   ApplyImprovementsParams,
   PreviewImprovementParams,
+  CustomizePlaceholdersParams,
   Recommendation,
   RecommendationError,
   PerformanceMetrics,
-  CacheStats
+  CacheStats,
+  CVAnalysisResult,
+  CareerInsight,
+  LearningPath
 } from '../../types';
 
 // ============================================================================
@@ -121,7 +125,7 @@ export function useRecommendations() {
       const response = await recommendationsService.getRecommendations(params);
 
       if (!response.success || !response.data) {
-        throw new Error(response.error?.message || 'Failed to load recommendations');
+        throw new Error(typeof response.error === 'string' ? response.error : response.error?.message || 'Failed to load recommendations');
       }
 
       // Update recommendations with selection state
@@ -184,7 +188,7 @@ export function useRecommendations() {
       const response = await recommendationsService.applyImprovements(params);
 
       if (!response.success) {
-        throw new Error(response.error?.message || 'Failed to apply recommendations');
+        throw new Error(typeof response.error === 'string' ? response.error : response.error?.message || 'Failed to apply recommendations');
       }
 
       setState(prev => ({ 
@@ -227,7 +231,7 @@ export function useRecommendations() {
       const response = await recommendationsService.previewImprovement(params);
 
       if (!response.success) {
-        throw new Error(response.error?.message || 'Failed to preview recommendation');
+        throw new Error(typeof response.error === 'string' ? response.error : response.error?.message || 'Failed to preview recommendation');
       }
 
       setState(prev => ({ 
@@ -359,4 +363,44 @@ export function useRecommendations() {
   };
 }
 
-export type UseRecommendationsReturn = ReturnType<typeof useRecommendations>;
+// Enhanced AI-powered features
+interface EnhancedUseRecommendationsReturn extends ReturnType<typeof useRecommendations> {
+  // AI analysis features
+  analysisResult: CVAnalysisResult | null;
+  overallScore: number;
+  hasAnalysisResult: boolean;
+  
+  // Career development features
+  careerInsights: CareerInsight[];
+  learningPaths: LearningPath[];
+  hasCareerInsights: boolean;
+  hasLearningPaths: boolean;
+  
+  // Enhanced selection management
+  selectedRecommendations: string[];
+  selectedCount: number;
+  totalImpactScore: number;
+  hasHighImpactRecommendations: boolean;
+  canApplyRecommendations: boolean;
+  
+  // Enhanced loading states
+  isAnalyzing: boolean;
+  isPreviewing: boolean;
+  isApplyingImprovements: boolean;
+  
+  // Additional actions
+  customizePlaceholders: (params: CustomizePlaceholdersParams) => Promise<any>;
+  loadCareerInsights: (jobId: string, industry?: string) => Promise<void>;
+  loadLearningPaths: (jobId: string, targetRole?: string, focusAreas?: string[]) => Promise<void>;
+  selectRecommendation: (id: string) => void;
+  deselectRecommendation: (id: string) => void;
+  checkAIServiceHealth: () => Promise<any>;
+}
+
+export type UseRecommendationsReturn = EnhancedUseRecommendationsReturn;
+
+/**
+ * Enhanced useRecommendations hook with full AI capabilities
+ * @deprecated Use useRecommendations instead
+ */
+export { useRecommendations as useAIRecommendations };

@@ -8,48 +8,7 @@
  * @version 1.0.0
  */
 
-// TEMPORARY: Inline types until @cvplus/core is properly built
-export interface CVParsedData {
-  personalInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    location: string;
-    summary?: string;
-  };
-  professionalSummary: string;
-  workExperience: Array<{
-    title: string;
-    company: string;
-    duration: string;
-    description: string;
-    responsibilities?: string[];
-    achievements?: string[];
-    skills?: string[];
-  }>;
-  education: Array<{
-    degree: string;
-    institution: string;
-    year: string;
-  }>;
-  skills: Array<{
-    name: string;
-    skills: string[];
-  }> | string[];
-  achievements: string[];
-  certifications: Array<{
-    name: string;
-    issuer: string;
-    date: string;
-  }>;
-}
-
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string | { message: string; [key: string]: any };
-  timestamp?: number;
-}
+import type { CVParsedData, ApiResponse } from '@cvplus/core';
 
 // ============================================================================
 // CORE RECOMMENDATION TYPES
@@ -537,28 +496,3 @@ export interface RecommendationEvent {
 }
 
 export type RecommendationEventHandler = (event: RecommendationEvent) => void;
-
-// ============================================================================
-// CAREER DEVELOPMENT TYPES
-// ============================================================================
-
-export interface CareerInsight {
-  type: 'trend' | 'opportunity' | 'risk' | 'recommendation';
-  title: string;
-  description: string;
-  relevance: number; // 0-1
-  timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term';
-  actionable: boolean;
-  sources: string[];
-}
-
-export interface LearningPath {
-  id: string;
-  title: string;
-  description: string;
-  targetSkill: string;
-  duration: number; // hours
-  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
-  estimatedCost: number;
-  roi: number; // Return on investment score
-}

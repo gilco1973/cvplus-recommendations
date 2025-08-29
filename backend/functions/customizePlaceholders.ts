@@ -1,68 +1,61 @@
-/**
- * Firebase Function: customizePlaceholders (Package-based Implementation)
- * 
- * Uses the @cvplus/recommendations package for a clean, modular implementation.
- * This is the MISSING FUNCTIONALITY now implemented in the package.
- * 
- * @author Gil Klainert
- * @version 1.0.0
- */
-
 import { onCall } from 'firebase-functions/v2/https';
 import { corsOptions } from '../../../../functions/src/config/cors';
-import { firebaseFunctionsAdapter } from '../../src/integration/firebase/functions-adapter';
+import { 
+  ImprovementOrchestrator,
+  ValidationEngine
+} from '../../src/services/root-enhanced';
 
 /**
  * Firebase Function: customizePlaceholders
- * MISSING FUNCTIONALITY - Now implemented via package
+ * Customizes recommendation placeholders with user-provided values
+ * Maximum 180 lines to comply with code standards
  */
 export const customizePlaceholders = onCall(
   {
     timeoutSeconds: 60,
     memory: '512MiB',
-    concurrency: 30, // Fast operation, high concurrency
     ...corsOptions,
   },
   async (request) => {
-    const startTime = Date.now();
-    
+    const validator = new ValidationEngine();
+    const orchestrator = new ImprovementOrchestrator();
+
     try {
-      console.log('[customizePlaceholders:package] Starting request', {
-        userId: request.auth?.uid,
-        jobId: request.data?.jobId,
-        recommendationId: request.data?.recommendationId,
-        placeholderCount: Object.keys(request.data?.placeholderValues || {}).length,
-        timestamp: new Date().toISOString()
-      });
+      // Validate authentication
+      const authValidation = validator.validateAuth(request);
+      if (!authValidation.isValid) {
+        throw new Error(authValidation.error);
+      }
 
-      // Use the Firebase adapter from the package - NEW FUNCTIONALITY
-      const result = await firebaseFunctionsAdapter.customizePlaceholders(request);
+      // Validate request data
+      const { jobId, recommendationId, placeholderValues } = request.data;
+      
+      if (!jobId || !recommendationId || !placeholderValues) {
+        throw new Error('Job ID, recommendation ID, and placeholder values are required');
+      }
 
-      const processingTime = Date.now() - startTime;
-      console.log('[customizePlaceholders:package] Completed request', {
-        success: result.success,
-        processingTime,
-        customized: !!result.data?.customizedContent
-      });
+      console.log(`[customizePlaceholders] Starting for job ${jobId}, recommendation ${recommendationId}`);
 
+      // Customize placeholders using orchestrator
+      const result = await orchestrator.customizePlaceholders(
+        jobId,
+        authValidation.userId,
+        recommendationId,
+        placeholderValues
+      );
+
+      console.log(`[customizePlaceholders] Completed for recommendation ${recommendationId}`);
       return result;
 
     } catch (error: any) {
-      const processingTime = Date.now() - startTime;
-      console.error('[customizePlaceholders:package] Request failed:', {
+      console.error(`[customizePlaceholders] Error:`, {
         error: error.message,
-        stack: error.stack,
-        userId: request.auth?.uid,
         jobId: request.data?.jobId,
         recommendationId: request.data?.recommendationId,
-        processingTime
+        userId: request.auth?.uid
       });
       
-      return {
-        success: false,
-        error: error.message || 'Internal server error',
-        timestamp: new Date().toISOString()
-      };
+      throw error;
     }
   }
 );

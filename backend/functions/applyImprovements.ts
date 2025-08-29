@@ -1,66 +1,77 @@
-/**
- * Firebase Function: applyImprovements (Package-based Implementation)
- * 
- * Uses the @cvplus/recommendations package for a clean, modular implementation.
- * Provides 100% API compatibility with the existing Firebase function.
- * 
- * @author Gil Klainert
- * @version 1.0.0
- */
-
 import { onCall } from 'firebase-functions/v2/https';
 import { corsOptions } from '../../../../functions/src/config/cors';
-import { firebaseFunctionsAdapter } from '../../src/integration/firebase/functions-adapter';
+import { 
+  ImprovementOrchestrator,
+  ValidationEngine
+} from '../../src/services/root-enhanced';
 
 /**
  * Firebase Function: applyImprovements
- * Package-based implementation with full API compatibility
+ * Applies selected CV recommendations and saves improved CV
+ * Maximum 180 lines to comply with code standards
  */
 export const applyImprovements = onCall(
   {
-    timeoutSeconds: 300,
+    timeoutSeconds: 180,
     memory: '1GiB',
-    concurrency: 5,
     ...corsOptions,
   },
   async (request) => {
+    const validator = new ValidationEngine();
+    const orchestrator = new ImprovementOrchestrator();
     const startTime = Date.now();
-    
+
     try {
-      console.log('[applyImprovements:package] Starting request', {
-        userId: request.auth?.uid,
-        jobId: request.data?.jobId,
-        recommendationCount: request.data?.selectedRecommendationIds?.length || 0,
+      // Validate authentication
+      const authValidation = validator.validateAuth(request);
+      if (!authValidation.isValid) {
+        throw new Error(authValidation.error);
+      }
+
+      // Validate request data
+      const { jobId, selectedRecommendationIds, targetRole, industryKeywords } = request.data;
+      const requestValidation = validator.validateRecommendationRequest({
+        jobId,
+        selectedRecommendationIds
+      });
+      if (!requestValidation.isValid) {
+        throw new Error(requestValidation.errors.join('; '));
+      }
+
+      console.log(`[applyImprovements] Starting for job ${jobId}`, {
+        userId: authValidation.userId,
+        selectedCount: selectedRecommendationIds.length,
+        targetRole,
         timestamp: new Date().toISOString()
       });
 
-      // Use the Firebase adapter from the package
-      const result = await firebaseFunctionsAdapter.applyImprovements(request);
+      // Apply recommendations using orchestrator
+      const result = await orchestrator.applySelectedRecommendations(
+        jobId,
+        authValidation.userId,
+        selectedRecommendationIds,
+        targetRole,
+        industryKeywords
+      );
 
       const processingTime = Date.now() - startTime;
-      console.log('[applyImprovements:package] Completed request', {
+      console.log(`[applyImprovements] Completed for job ${jobId}`, {
         success: result.success,
-        processingTime,
-        improvedCV: !!result.data?.improvedCV
+        appliedCount: result.data?.appliedRecommendations?.length || 0,
+        processingTime
       });
 
       return result;
 
     } catch (error: any) {
       const processingTime = Date.now() - startTime;
-      console.error('[applyImprovements:package] Request failed:', {
+      console.error(`[applyImprovements] Error for job ${request.data?.jobId}:`, {
         error: error.message,
-        stack: error.stack,
         userId: request.auth?.uid,
-        jobId: request.data?.jobId,
         processingTime
       });
       
-      return {
-        success: false,
-        error: error.message || 'Internal server error',
-        timestamp: new Date().toISOString()
-      };
+      throw error;
     }
   }
 );

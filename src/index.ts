@@ -22,6 +22,8 @@ export * from './types';
 export { recommendationsService, RecommendationsService } from './services/recommendations.service';
 export { CacheService } from './services/cache.service';
 export { AIIntegrationService } from './services/ai-integration.service';
+export { RecommendationEngineService } from './services/recommendation-engine.service';
+export { CareerDevelopmentService } from './services/career-development.service';
 export { PlaceholderCustomizationService } from './services/customization/placeholder-customization.service';
 
 // ============================================================================
@@ -40,7 +42,7 @@ export { firebaseFunctionsAdapter } from './integration/firebase/functions-adapt
 // FRONTEND COMPONENTS & HOOKS
 // ============================================================================
 
-export { useRecommendations } from './frontend/hooks/useRecommendations';
+export { useRecommendations, useAIRecommendations } from './frontend/hooks/useRecommendations';
 export type { UseRecommendationsReturn } from './frontend/hooks/useRecommendations';
 
 // ============================================================================

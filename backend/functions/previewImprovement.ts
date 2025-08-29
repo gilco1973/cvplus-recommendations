@@ -1,67 +1,60 @@
-/**
- * Firebase Function: previewImprovement (Package-based Implementation)
- * 
- * Uses the @cvplus/recommendations package for a clean, modular implementation.
- * Provides 100% API compatibility with the existing Firebase function.
- * 
- * @author Gil Klainert
- * @version 1.0.0
- */
-
 import { onCall } from 'firebase-functions/v2/https';
 import { corsOptions } from '../../../../functions/src/config/cors';
-import { firebaseFunctionsAdapter } from '../../src/integration/firebase/functions-adapter';
+import { 
+  ImprovementOrchestrator,
+  ValidationEngine
+} from '../../src/services/root-enhanced';
 
 /**
  * Firebase Function: previewImprovement
- * Package-based implementation with full API compatibility
+ * Generates a preview of what a single recommendation would look like when applied
+ * Maximum 180 lines to comply with code standards
  */
 export const previewImprovement = onCall(
   {
     timeoutSeconds: 60,
     memory: '512MiB',
-    concurrency: 20,
     ...corsOptions,
   },
   async (request) => {
-    const startTime = Date.now();
-    
+    const validator = new ValidationEngine();
+    const orchestrator = new ImprovementOrchestrator();
+
     try {
-      console.log('[previewImprovement:package] Starting request', {
-        userId: request.auth?.uid,
-        jobId: request.data?.jobId,
-        recommendationId: request.data?.recommendationId,
-        timestamp: new Date().toISOString()
-      });
+      // Validate authentication
+      const authValidation = validator.validateAuth(request);
+      if (!authValidation.isValid) {
+        throw new Error(authValidation.error);
+      }
 
-      // Use the Firebase adapter from the package
-      const result = await firebaseFunctionsAdapter.previewImprovement(request);
+      // Validate request data
+      const { jobId, recommendationId } = request.data;
+      
+      if (!jobId || !recommendationId) {
+        throw new Error('Job ID and recommendation ID are required');
+      }
 
-      const processingTime = Date.now() - startTime;
-      console.log('[previewImprovement:package] Completed request', {
-        success: result.success,
-        processingTime,
-        hasPreview: !!result.data?.previewCV
-      });
+      console.log(`[previewImprovement] Starting for job ${jobId}, recommendation ${recommendationId}`);
 
+      // Generate preview using orchestrator
+      const result = await orchestrator.previewRecommendation(
+        jobId,
+        authValidation.userId,
+        recommendationId
+      );
+
+      console.log(`[previewImprovement] Completed for recommendation ${recommendationId}`);
       return result;
 
     } catch (error: any) {
-      const processingTime = Date.now() - startTime;
-      console.error('[previewImprovement:package] Request failed:', {
+      console.error(`[previewImprovement] Error:`, {
         error: error.message,
-        stack: error.stack,
-        userId: request.auth?.uid,
         jobId: request.data?.jobId,
         recommendationId: request.data?.recommendationId,
-        processingTime
+        userId: request.auth?.uid
       });
       
-      return {
-        success: false,
-        error: error.message || 'Internal server error',
-        timestamp: new Date().toISOString()
-      };
+      throw error;
     }
   }
 );
