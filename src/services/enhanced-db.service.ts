@@ -4,6 +4,7 @@
  */
 
 import * as admin from 'firebase-admin';
+import { WithFieldValue, DocumentData } from 'firebase-admin/firestore';
 
 export interface DatabaseQuery {
   collection: string;

@@ -3,7 +3,7 @@
  * Utility functions for working with text embeddings
  */
 
-import { CVSection } from '../../../types';
+import { CVSection } from '../../../types/portal';
 import { ChunkResult } from '../chunking/ChunkingUtils';
 
 export interface EmbeddingResult {

@@ -11,8 +11,7 @@ import OpenAI from 'openai';
 import * as admin from 'firebase-admin';
 import { config } from '../config/environment';
 import { ParsedCV } from '../types/enhanced-models';
-import { RAGEmbedding, EmbeddingMetadata, ContentType } from '../types/portal';
-import { CVSection } from '../types';
+import { RAGEmbedding, EmbeddingMetadata, CVSection, ContentType } from '../types/portal';
 import { logger } from 'firebase-functions';
 import { ChunkingUtils, ChunkResult } from './cv-generator/chunking/ChunkingUtils';
 import { EmbeddingHelpers } from './cv-generator/embedding/EmbeddingHelpers';
@@ -168,7 +167,7 @@ export class EmbeddingService {
         metadata: metadata || {
           sourceDocument: 'cv-content',
           documentType: ContentType.CV_SECTION,
-          section: CVSection.SUMMARY,
+          section: CVSection.PROFESSIONAL_SUMMARY,
           chunkIndex: 0,
           wordCount: text.length,
           confidence: 1.0,
@@ -730,7 +729,7 @@ export class EmbeddingService {
       metadata: { 
         sourceDocument: 'batch-process',
         documentType: ContentType.CV_SECTION,
-        section: CVSection.SUMMARY, 
+        section: CVSection.PROFESSIONAL_SUMMARY, 
         chunkIndex: startIndex + index,
         wordCount: texts[index].length,
         confidence: 1.0,

@@ -117,7 +117,7 @@ export class TransformationApplier {
           recommendation,
           beforeContent: recommendation.currentContent || '',
           afterContent: recommendation.suggestedContent || '',
-          previewCV: previewResult.improvedCV,
+          previewCV: previewResult.improvedCV || originalCV,
           estimatedImpact: recommendation.estimatedScoreImprovement || 0
         }
       };
