@@ -602,4 +602,12 @@ export interface LearningPath {
   difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   estimatedCost: number;
   roi: number; // Return on investment score
-}
+}export * from './api';
+export * from './booking.types';
+export * from './payment.types';
+export * from './api';
+export * from './booking.types';
+export * from './payment.types';
+export * from './api';
+export * from './booking.types';
+export * from './payment.types';

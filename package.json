@@ -28,10 +28,12 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "validate-dependencies": "./scripts/validate-dependencies.sh"
+    "validate-dependencies": "./scripts/validate-dependencies.sh",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@cvplus/core": "file:../core",
+    "@cvplus/logging": "^1.0.0",
     "firebase": "^10.7.0",
     "firebase-admin": "^12.0.0",
     "lodash": "^4.17.21"

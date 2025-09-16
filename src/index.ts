@@ -26,6 +26,19 @@ export { RecommendationEngineService } from './services/recommendation-engine.se
 export { CareerDevelopmentService } from './services/career-development.service';
 export { PlaceholderCustomizationService } from './services/customization/placeholder-customization.service';
 
+// AI/RAG/Chat Services (migrated from core)
+export { ChatService, chatService } from './backend/services/chat.service';
+export { VectorDatabaseService } from './backend/services/vector-database.service';
+export { AdvancedPromptEngine, EnhancedPromptEngineWithFallbacks } from './backend/services/enhanced-prompt-engine.service';
+export { VerifiedClaudeService, verifiedClaudeService } from './backend/services/verified-claude.service';
+export { LLMVerificationService } from './backend/services/llm-verification.service';
+
+// ============================================================================
+// ML ENGINE
+// ============================================================================
+
+export { RecommendationEngine } from './engine/RecommendationEngine';
+
 // ============================================================================
 // UTILITIES
 // ============================================================================
