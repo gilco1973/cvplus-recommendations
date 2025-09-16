@@ -8,7 +8,7 @@ import { CVRecommendation } from './compatibility';
 /**
  * ActionOrchestrator - Handles CV transformation actions
  * Extracted from ImprovementOrchestrator to comply with 200-line rule
- */
+  */
 export class ActionOrchestrator {
   private analyzer: CVAnalyzer;
   private processor: ContentProcessor;
@@ -26,7 +26,7 @@ export class ActionOrchestrator {
 
   /**
    * Orchestrates the application of selected recommendations
-   */
+    */
   async applySelectedRecommendations(
     jobId: string,
     userId: string,
@@ -96,7 +96,7 @@ export class ActionOrchestrator {
 
   /**
    * Orchestrates recommendation preview generation
-   */
+    */
   async previewRecommendation(
     jobId: string,
     userId: string,
@@ -134,7 +134,7 @@ export class ActionOrchestrator {
 
   /**
    * Orchestrates placeholder customization
-   */
+    */
   async customizePlaceholders(
     jobId: string,
     userId: string,
@@ -186,7 +186,7 @@ export class ActionOrchestrator {
 
   /**
    * Validates multiple recommendations for batch operations
-   */
+    */
   async validateBatchRecommendations(
     jobId: string,
     userId: string,
@@ -222,7 +222,7 @@ export class ActionOrchestrator {
 
   /**
    * Gets processing status for a job
-   */
+    */
   async getProcessingStatus(jobId: string, userId: string): Promise<any> {
     const { jobData } = await this.analyzer.validateJobAccess(jobId, userId);
     

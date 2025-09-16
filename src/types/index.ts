@@ -6,10 +6,10 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 // Import core types instead of duplicating
-import type { ParsedCV } from '@cvplus/core/types/job';
+import type { ParsedCV } from '@cvplus/core';
 
 // Extend ParsedCV with recommendation-specific properties
 export interface CVParsedData extends ParsedCV {
@@ -17,6 +17,14 @@ export interface CVParsedData extends ParsedCV {
   workExperience?: WorkExperience[]; // Keep for compatibility
   achievements?: string[];
   projects?: string[];
+  personalInfo?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    title?: string;
+    summary?: string;
+  };
+  skills?: Skill[] | string[];
   // Extended properties for transformation results
   improvedCV?: CVParsedData;
   appliedRecommendations?: string[];
@@ -592,12 +600,4 @@ export interface LearningPath {
   difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   estimatedCost: number;
   roi: number; // Return on investment score
-}export * from './api';
-export * from './booking.types';
-export * from './payment.types';
-export * from './api';
-export * from './booking.types';
-export * from './payment.types';
-export * from './api';
-export * from './booking.types';
-export * from './payment.types';
+}

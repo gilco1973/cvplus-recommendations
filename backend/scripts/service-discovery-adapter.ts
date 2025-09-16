@@ -15,7 +15,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @date 2025-08-27
- */
+  */
 
 import * as admin from 'firebase-admin';
 
@@ -28,7 +28,7 @@ const db = admin.firestore();
 
 /**
  * Service health status
- */
+  */
 interface ServiceHealth {
   serviceId: string;
   implementation: 'LEGACY' | 'PACKAGE';
@@ -44,7 +44,7 @@ interface ServiceHealth {
 
 /**
  * Service routing decision
- */
+  */
 interface RoutingDecision {
   serviceId: string;
   implementation: 'LEGACY' | 'PACKAGE';
@@ -55,7 +55,7 @@ interface RoutingDecision {
 
 /**
  * Performance comparison result
- */
+  */
 interface PerformanceComparison {
   serviceId: string;
   legacyMetrics?: ServiceHealth['metrics'];
@@ -66,7 +66,7 @@ interface PerformanceComparison {
 
 /**
  * Service Discovery and Routing Adapter
- */
+  */
 export class ServiceDiscoveryAdapter {
   private serviceHealth = new Map<string, ServiceHealth>();
   private routingCache = new Map<string, RoutingDecision>();
@@ -84,7 +84,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Get optimal service implementation for a request
-   */
+    */
   async getServiceImplementation(
     serviceId: string,
     userId?: string,
@@ -121,7 +121,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Make intelligent routing decision based on multiple factors
-   */
+    */
   private async makeRoutingDecision(
     serviceId: string,
     userId?: string
@@ -185,7 +185,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Make routing decision based on service health
-   */
+    */
   private makeHealthBasedDecision(
     serviceId: string,
     legacyHealth?: ServiceHealth,
@@ -229,7 +229,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Make routing decision based on performance comparison
-   */
+    */
   private makePerformanceBasedDecision(serviceId: string): RoutingDecision | null {
     const history = this.performanceHistory.get(serviceId);
     if (!history || history.length < 3) {
@@ -267,7 +267,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Compare performance between implementations
-   */
+    */
   async compareServicePerformance(serviceId: string): Promise<PerformanceComparison> {
     const legacyHealth = this.serviceHealth.get(`${serviceId}_LEGACY`);
     const packageHealth = this.serviceHealth.get(`${serviceId}_PACKAGE`);
@@ -310,7 +310,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Calculate performance score from metrics
-   */
+    */
   private calculatePerformanceScore(metrics: ServiceHealth['metrics']): number {
     // Weighted performance score (lower is better for response time and error rate)
     const responseScore = Math.max(0, 100 - metrics.responseTime / 10);
@@ -322,7 +322,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Handle service failure and trigger circuit breaker
-   */
+    */
   async handleServiceFailure(
     serviceId: string,
     implementation: 'LEGACY' | 'PACKAGE',
@@ -356,7 +356,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Handle successful service call
-   */
+    */
   async handleServiceSuccess(
     serviceId: string,
     implementation: 'LEGACY' | 'PACKAGE',
@@ -383,7 +383,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Start background health monitoring
-   */
+    */
   private startHealthMonitoring(): void {
     setInterval(async () => {
       await this.performHealthChecks();
@@ -393,7 +393,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Perform health checks on all services
-   */
+    */
   private async performHealthChecks(): Promise<void> {
     const services = [
       'CVAnalyzer', 'ImprovementOrchestrator', 'CacheManager',
@@ -409,7 +409,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Perform performance comparisons
-   */
+    */
   private async performPerformanceComparisons(): Promise<void> {
     const services = [
       'CVAnalyzer', 'ImprovementOrchestrator', 'CacheManager',
@@ -424,7 +424,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Check individual service health
-   */
+    */
   private async checkServiceHealth(healthKey: string): Promise<void> {
     const [serviceId, implementation] = healthKey.split('_');
     
@@ -446,7 +446,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Ping service to check if it's responsive
-   */
+    */
   private async pingService(serviceId: string, implementation: 'LEGACY' | 'PACKAGE'): Promise<boolean> {
     // Implementation would make actual service calls
     // For now, return true with some randomness to simulate real conditions
@@ -460,7 +460,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Get feature flags for service
-   */
+    */
   private async getFeatureFlags(serviceId: string): Promise<{enabled: boolean, rolloutPercentage: number}> {
     try {
       const flagName = `${serviceId.toLowerCase()}-package-enabled`;
@@ -483,7 +483,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Check if user is in rollout group
-   */
+    */
   private isUserInRollout(userId: string, rolloutPercentage: number): boolean {
     if (rolloutPercentage >= 100) return true;
     if (rolloutPercentage <= 0) return false;
@@ -502,7 +502,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Check if routing cache is valid
-   */
+    */
   private isCacheValid(cacheKey: string): boolean {
     // Simple TTL-based cache validation
     // In a real implementation, this would check cache timestamps
@@ -511,7 +511,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Create default health status
-   */
+    */
   private createDefaultHealth(serviceId: string, implementation: 'LEGACY' | 'PACKAGE'): ServiceHealth {
     return {
       serviceId: `${serviceId}_${implementation}`,
@@ -529,7 +529,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Log service failure event
-   */
+    */
   private async logServiceFailure(
     serviceId: string,
     implementation: 'LEGACY' | 'PACKAGE',
@@ -550,7 +550,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Get current service health status
-   */
+    */
   getServiceHealthStatus(serviceId?: string): Map<string, ServiceHealth> | ServiceHealth | undefined {
     if (serviceId) {
       return this.serviceHealth.get(serviceId);
@@ -560,7 +560,7 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Get performance history
-   */
+    */
   getPerformanceHistory(serviceId?: string): Map<string, PerformanceComparison[]> | PerformanceComparison[] | undefined {
     if (serviceId) {
       return this.performanceHistory.get(serviceId);
@@ -570,14 +570,14 @@ export class ServiceDiscoveryAdapter {
 
   /**
    * Clear routing cache (useful for testing)
-   */
+    */
   clearRoutingCache(): void {
     this.routingCache.clear();
   }
 
   /**
    * Reset service health (useful for testing)
-   */
+    */
   resetServiceHealth(): void {
     this.serviceHealth.clear();
     this.performanceHistory.clear();

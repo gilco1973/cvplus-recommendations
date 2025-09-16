@@ -9,7 +9,7 @@
  *
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { ParsedCV } from '@cvplus/core/types/enhanced-models';
 import { IndustryTemplate } from '@cvplus/core/types/industry-specialization';
@@ -32,7 +32,7 @@ import {
  *
  * Provides backward compatibility interface while delegating
  * to the new modular CorePromptEngine system.
- */
+  */
 export class AdvancedPromptEngine {
   private coreEngine: CorePromptEngine;
 
@@ -47,7 +47,7 @@ export class AdvancedPromptEngine {
    * @param options Generation options
    * @param industryTemplate Optional industry-specific template
    * @returns Enhanced script result with quality metrics
-   */
+    */
   async generateEnhancedScript(
     cv: ParsedCV,
     options: PromptEngineOptions = {},
@@ -62,7 +62,7 @@ export class AdvancedPromptEngine {
  *
  * Provides additional resilience for production environments
  * with automatic fallback strategies.
- */
+  */
 export class EnhancedPromptEngineWithFallbacks extends AdvancedPromptEngine {
   private fallbackAttempts: number = 0;
   private maxFallbackAttempts: number = 3;

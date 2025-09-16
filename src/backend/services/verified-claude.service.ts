@@ -1,11 +1,11 @@
 /**
  * Verified Claude Service with LLM Verification
  * Provides enhanced CV parsing with verification capabilities
- */
+  */
 
 import { Anthropic } from '@anthropic-ai/sdk';
 import { LLMVerificationService } from './llm-verification.service';
-import * as admin from 'firebase-admin';
+import { admin } from '@cvplus/core';
 
 export interface VerifiedClaudeConfig {
   enableVerification: boolean;
@@ -80,7 +80,7 @@ export class VerifiedClaudeService {
 
   /**
    * Get service health status
-   */
+    */
   async getServiceStatus(): Promise<VerificationStatus> {
     try {
       const hasApiKeys = Boolean(process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY);
@@ -105,7 +105,7 @@ export class VerifiedClaudeService {
 
   /**
    * Process CV with optional verification
-   */
+    */
   async processCV(content: string, options: any = {}): Promise<any> {
     try {
       // Get service status
@@ -201,7 +201,7 @@ export class VerifiedClaudeService {
 
   /**
    * Test verification service connectivity
-   */
+    */
   async testConnection(): Promise<{success: boolean; message: string; details: any}> {
     try {
       const hasApiKeys = Boolean(process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY);
@@ -261,7 +261,7 @@ export class VerifiedClaudeService {
   /**
    * Create verified message with LLM service
    * Compatible with existing API calls
-   */
+    */
   async createVerifiedMessage(
     contentOrOptions: string | VerifiedMessageOptions, 
     options: VerifiedMessageOptions = {}
@@ -370,7 +370,7 @@ export class VerifiedClaudeService {
 
   /**
    * Health check method
-   */
+    */
   async healthCheck(): Promise<{ status: string; details: any }> {
     try {
       const status = await this.getServiceStatus();
@@ -394,14 +394,14 @@ export class VerifiedClaudeService {
 
   /**
    * Update service configuration
-   */
+    */
   updateConfig(newConfig: Partial<VerifiedClaudeConfig>): void {
     this.config = { ...this.config, ...newConfig };
   }
 
   /**
    * Get service configuration and status
-   */
+    */
   getServiceInfo(): {
     service: string;
     verificationEnabled: boolean;

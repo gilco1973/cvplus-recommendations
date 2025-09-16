@@ -1,7 +1,7 @@
 /**
  * CacheManager - Emergency caching layer for immediate performance gains
  * Implements multi-tier caching with memory, Redis fallback, and Firestore backup
- */
+  */
 export class CacheManager {
   // L1 Cache: Memory cache (fastest, limited capacity)
   private static memoryCache = new Map<string, { data: any; timestamp: number; ttl: number }>();
@@ -22,7 +22,7 @@ export class CacheManager {
 
   /**
    * Gets cached data with automatic fallback through cache tiers
-   */
+    */
   static async get<T>(key: string, category: keyof typeof CacheManager.CACHE_TTLS = 'recommendations'): Promise<T | null> {
     try {
       // Lazy cleanup to avoid memory leaks
@@ -52,7 +52,7 @@ export class CacheManager {
 
   /**
    * Sets cached data across all available cache tiers
-   */
+    */
   static async set<T>(
     key: string, 
     data: T, 
@@ -73,7 +73,7 @@ export class CacheManager {
 
   /**
    * Invalidates cached data across all tiers
-   */
+    */
   static async invalidate(key: string): Promise<void> {
     try {
       // L1: Remove from memory
@@ -90,7 +90,7 @@ export class CacheManager {
 
   /**
    * Invalidates all cached data by pattern
-   */
+    */
   static async invalidatePattern(pattern: string): Promise<void> {
     try {
       const regex = new RegExp(pattern);
@@ -116,7 +116,7 @@ export class CacheManager {
 
   /**
    * Gets cache statistics
-   */
+    */
   static getCacheStats(): {
     memoryEntries: number;
     memoryHitRate: number;
@@ -136,7 +136,7 @@ export class CacheManager {
 
   /**
    * Clears all cache entries
-   */
+    */
   static clearAll(): void {
     this.memoryCache.clear();
     console.log('🗑️ All cache entries cleared');
@@ -192,7 +192,7 @@ export class CacheManager {
 
   /**
    * Performs lazy cleanup to avoid memory leaks from setInterval
-   */
+    */
   private static performLazyCleanup(): void {
     const now = Date.now();
     if (now - this.lastCleanup > this.MEMORY_CLEANUP_INTERVAL) {

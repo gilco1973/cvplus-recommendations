@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { recommendationsService } from '../../services/recommendations.service';
@@ -402,5 +402,5 @@ export type UseRecommendationsReturn = EnhancedUseRecommendationsReturn;
 /**
  * Enhanced useRecommendations hook with full AI capabilities
  * @deprecated Use useRecommendations instead
- */
+  */
 export { useRecommendations as useAIRecommendations };

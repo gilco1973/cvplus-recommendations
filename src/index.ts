@@ -7,7 +7,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 // ============================================================================
 // TYPES
@@ -24,11 +24,10 @@ export { CacheService } from './services/cache.service';
 export { AIIntegrationService } from './services/ai-integration.service';
 export { RecommendationEngineService } from './services/recommendation-engine.service';
 export { CareerDevelopmentService } from './services/career-development.service';
-export { PlaceholderCustomizationService } from './services/customization/placeholder-customization.service';
 
 // AI/RAG/Chat Services (migrated from core)
 export { ChatService, chatService } from './backend/services/chat.service';
-export { VectorDatabaseService } from './backend/services/vector-database.service';
+export { VectorDatabase, vectorDatabase } from './backend/services/vector-database.service';
 export { AdvancedPromptEngine, EnhancedPromptEngineWithFallbacks } from './backend/services/enhanced-prompt-engine.service';
 export { VerifiedClaudeService, verifiedClaudeService } from './backend/services/verified-claude.service';
 export { LLMVerificationService } from './backend/services/llm-verification.service';
@@ -140,7 +139,7 @@ export const MODULE_INFO = {
 
 /**
  * Initialize the recommendations module with custom configuration
- */
+  */
 export function initializeRecommendations(config?: {
   cache?: Partial<typeof DEFAULT_CACHE_CONFIG>;
   retry?: Partial<typeof DEFAULT_RETRY_CONFIG>;
@@ -173,7 +172,7 @@ export function initializeRecommendations(config?: {
 
 /**
  * Get current module health status
- */
+  */
 export function getModuleHealth() {
   const { recommendationsService } = require('./services/recommendations.service');
   const isHealthy = recommendationsService.isHealthy();
@@ -200,7 +199,7 @@ export function getModuleHealth() {
 
 /**
  * Reset module metrics (for testing)
- */
+  */
 export function resetModuleMetrics() {
   const { recommendationsService } = require('./services/recommendations.service');
   recommendationsService.resetMetrics();

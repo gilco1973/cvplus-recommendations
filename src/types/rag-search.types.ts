@@ -1,7 +1,7 @@
 /**
  * RAG/AI Types
  * Type definitions for the recommendations AI and search functionality
- */
+  */
 
 // Import CVSection from main types to avoid duplication
 import { CVSection } from './index';

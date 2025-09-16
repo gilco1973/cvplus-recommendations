@@ -9,7 +9,7 @@ import {
  * Firebase Function: applyImprovements
  * Applies selected CV recommendations and saves improved CV
  * Maximum 180 lines to comply with code standards
- */
+  */
 export const applyImprovements = onCall(
   {
     timeoutSeconds: 180,

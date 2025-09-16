@@ -15,7 +15,7 @@ import type { CVParsedData } from '@cvplus/core';
  * Firebase Function: getRecommendations
  * Generates AI-powered CV improvement recommendations with caching and error handling
  * Maximum 180 lines to comply with code standards
- */
+  */
 export const getRecommendations = onCall(
   {
     timeoutSeconds: 300,

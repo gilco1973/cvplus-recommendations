@@ -9,7 +9,7 @@ import {
  * Firebase Function: previewImprovement
  * Generates a preview of what a single recommendation would look like when applied
  * Maximum 180 lines to comply with code standards
- */
+  */
 export const previewImprovement = onCall(
   {
     timeoutSeconds: 60,

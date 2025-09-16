@@ -1,7 +1,7 @@
 /**
  * Enhanced Models
  * Extended type definitions for advanced CV processing
- */
+  */
 
 import { CVParsedData } from './index';
 

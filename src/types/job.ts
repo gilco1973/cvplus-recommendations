@@ -1,7 +1,7 @@
 /**
  * Job-Related Types
  * Type definitions for job postings and career-related data
- */
+  */
 
 export interface JobPosting {
   id: string;

@@ -1,4 +1,4 @@
-import { getFirestore } from 'firebase-admin/firestore';
+import { db } from '@cvplus/core';
 import { JobMatch } from '../../types/job';
 import { Recommendation } from '../../types';
 import { ParsedCV } from './compatibility';
@@ -6,24 +6,24 @@ import { ParsedCV } from './compatibility';
 /**
  * CVAnalyzer - Handles CV analysis and validation logic
  * Responsible for analyzing CV structure, content quality, and identifying improvement areas
- */
+  */
 export class CVAnalyzer {
   private db: FirebaseFirestore.Firestore;
 
   constructor() {
-    this.db = getFirestore();
+    this.db = db;
   }
 
   /**
    * Gets database instance for external operations
-   */
+    */
   getDatabase(): FirebaseFirestore.Firestore {
     return this.db;
   }
 
   /**
    * Analyzes CV for missing or weak sections
-   */
+    */
   analyzeCVStructure(cv: ParsedCV): {
     missingTitle: boolean;
     missingContact: boolean;
@@ -53,7 +53,7 @@ export class CVAnalyzer {
 
   /**
    * Analyzes skills organization structure
-   */
+    */
   private analyzeSkillsStructure(cv: ParsedCV): 'missing' | 'array' | 'organized' {
     if (!cv.skills) return 'missing';
     if (Array.isArray(cv.skills)) return 'array';
@@ -63,7 +63,7 @@ export class CVAnalyzer {
 
   /**
    * Validates job document access and retrieves CV data
-   */
+    */
   async validateJobAccess(jobId: string, userId: string): Promise<{
     jobData: any;
     originalCV: ParsedCV;
@@ -93,7 +93,7 @@ export class CVAnalyzer {
 
   /**
    * Checks if recommendations are recent and valid
-   */
+    */
   areRecommendationsRecent(lastGeneration?: string): boolean {
     if (!lastGeneration) return false;
     
@@ -103,7 +103,7 @@ export class CVAnalyzer {
 
   /**
    * Validates selected recommendations exist in stored recommendations
-   */
+    */
   validateSelectedRecommendations(
     selectedRecommendationIds: string[],
     storedRecommendations: Recommendation[]
@@ -125,7 +125,7 @@ export class CVAnalyzer {
 
   /**
    * Validates recommendation quality and completeness
-   */
+    */
   validateRecommendationQuality(recommendations: Recommendation[]): Recommendation[] {
     return recommendations.map(rec => {
       // Ensure all required fields are present with fallback values
@@ -141,7 +141,7 @@ export class CVAnalyzer {
 
   /**
    * Sanitizes recommendations for Firestore storage
-   */
+    */
   sanitizeRecommendationsForStorage(recommendations: Recommendation[]): Recommendation[] {
     return recommendations.map((rec: any) => {
       const sanitizedRec = { ...rec };

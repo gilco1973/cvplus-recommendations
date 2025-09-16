@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 export { CacheCoreService } from './cache-core-service';
 export { MemoryManager } from './memory-manager';

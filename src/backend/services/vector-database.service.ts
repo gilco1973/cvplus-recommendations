@@ -13,10 +13,9 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
-import { logger } from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import { logger, admin, FieldValue } from '@cvplus/core';
 import { RAGEmbedding, EmbeddingMetadata } from '../../types/rag-search.types';
 import { CVSection } from '../../types';
 
@@ -371,7 +370,7 @@ class FirestoreVectorStore extends VectorStore {
         content: vector.content,
         vector: vector.vector,
         metadata: vector.metadata,
-        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+        updatedAt: FieldValue.serverTimestamp()
       });
     }
 

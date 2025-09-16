@@ -1,7 +1,7 @@
 /**
  * CircuitBreaker - Core circuit breaker pattern implementation
  * Extracted and focused version to comply with 200-line rule
- */
+  */
 export class CircuitBreaker {
   private failureCount = 0;
   private lastFailureTime = 0;
@@ -22,7 +22,7 @@ export class CircuitBreaker {
 
   /**
    * Executes a function with circuit breaker protection
-   */
+    */
   async execute<T>(fn: () => Promise<T>, fallback?: () => Promise<T>): Promise<T> {
     if (this.state === 'OPEN') {
       if (this.shouldAttemptReset()) {
@@ -53,7 +53,7 @@ export class CircuitBreaker {
 
   /**
    * Records a successful execution
-   */
+    */
   private onSuccess(): void {
     this.failureCount = 0;
     if (this.state === 'HALF_OPEN') {
@@ -64,7 +64,7 @@ export class CircuitBreaker {
 
   /**
    * Records a failed execution
-   */
+    */
   private onFailure(): void {
     this.failureCount++;
     this.lastFailureTime = Date.now();
@@ -77,14 +77,14 @@ export class CircuitBreaker {
 
   /**
    * Determines if we should attempt to reset the circuit breaker
-   */
+    */
   private shouldAttemptReset(): boolean {
     return Date.now() - this.lastFailureTime >= this.recoveryTimeout;
   }
 
   /**
    * Gets current circuit breaker status
-   */
+    */
   getStatus(): {
     state: string;
     failureCount: number;
@@ -101,7 +101,7 @@ export class CircuitBreaker {
 
   /**
    * Manually resets the circuit breaker
-   */
+    */
   reset(): void {
     this.failureCount = 0;
     this.lastFailureTime = 0;
@@ -111,14 +111,14 @@ export class CircuitBreaker {
 
   /**
    * Checks if the circuit breaker is healthy
-   */
+    */
   isHealthy(): boolean {
     return this.state === 'CLOSED';
   }
 
   /**
    * Gets failure rate over the monitor window
-   */
+    */
   getFailureRate(): number {
     const now = Date.now();
     const windowStart = now - this.monitorWindow;
@@ -132,7 +132,7 @@ export class CircuitBreaker {
 
   /**
    * Forces circuit breaker to open (for testing)
-   */
+    */
   forceOpen(): void {
     this.state = 'OPEN';
     this.failureCount = this.failureThreshold;
@@ -142,7 +142,7 @@ export class CircuitBreaker {
 
   /**
    * Forces circuit breaker to close (for testing)
-   */
+    */
   forceClose(): void {
     this.state = 'CLOSED';
     this.failureCount = 0;
@@ -153,13 +153,13 @@ export class CircuitBreaker {
 
 /**
  * Global circuit breaker instances for different services
- */
+  */
 export class CircuitBreakerManager {
   private static breakers = new Map<string, CircuitBreaker>();
 
   /**
    * Gets or creates a circuit breaker for a specific service
-   */
+    */
   static getBreaker(serviceName: string): CircuitBreaker {
     if (!this.breakers.has(serviceName)) {
       this.breakers.set(serviceName, new CircuitBreaker());
@@ -169,7 +169,7 @@ export class CircuitBreakerManager {
 
   /**
    * Gets status of all circuit breakers
-   */
+    */
   static getAllStatus(): Record<string, any> {
     const status: Record<string, any> = {};
     for (const [name, breaker] of this.breakers) {
@@ -180,7 +180,7 @@ export class CircuitBreakerManager {
 
   /**
    * Resets all circuit breakers
-   */
+    */
   static resetAll(): void {
     for (const breaker of this.breakers.values()) {
       breaker.reset();
@@ -190,7 +190,7 @@ export class CircuitBreakerManager {
 
   /**
    * Creates a circuit breaker with custom settings
-   */
+    */
   static createBreaker(
     serviceName: string,
     failureThreshold: number,
@@ -204,14 +204,14 @@ export class CircuitBreakerManager {
 
   /**
    * Removes a circuit breaker
-   */
+    */
   static removeBreaker(serviceName: string): boolean {
     return this.breakers.delete(serviceName);
   }
 
   /**
    * Gets health status of all services
-   */
+    */
   static getHealthStatus(): Record<string, boolean> {
     const health: Record<string, boolean> = {};
     for (const [name, breaker] of this.breakers) {

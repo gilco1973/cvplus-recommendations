@@ -1,7 +1,7 @@
 /**
  * LLM Verification Service - Stub Implementation
  * TODO: Implement proper LLM verification functionality
- */
+  */
 
 export interface VerificationResult {
   isValid: boolean;
@@ -13,7 +13,7 @@ export interface VerificationResult {
 export class LLMVerificationService {
   /**
    * Verify LLM response quality
-   */
+    */
   async verifyResponse(_response: string, _prompt: string): Promise<VerificationResult> {
     // TODO: Implement proper LLM response verification
     return {
@@ -26,7 +26,7 @@ export class LLMVerificationService {
 
   /**
    * Verify content appropriateness
-   */
+    */
   async verifyContent(_content: string): Promise<VerificationResult> {
     // TODO: Implement content verification
     return {

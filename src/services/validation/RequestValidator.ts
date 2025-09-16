@@ -1,11 +1,11 @@
 /**
  * RequestValidator - Validates request parameters for recommendation operations
  * Broken out from ValidationEngine to comply with 200-line limit
- */
+  */
 export class RequestValidator {
   /**
    * Validates request parameters for recommendation operations
-   */
+    */
   validateRecommendationRequest(data: any): {
     isValid: boolean;
     errors: string[];

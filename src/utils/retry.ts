@@ -12,7 +12,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import type { 
   RetryConfiguration, 
@@ -158,7 +158,7 @@ export class RetryUtil {
 
   /**
    * Execute operation with retry logic and circuit breaker
-   */
+    */
   async executeWithRetry<T>(
     operation: () => Promise<T>,
     context: {
@@ -268,14 +268,14 @@ export class RetryUtil {
 
   /**
    * Check if error is retryable based on configuration
-   */
+    */
   private isRetryable(error: RecommendationError): boolean {
     return this.config.retryableErrors.includes(error.type);
   }
 
   /**
    * Calculate delay with exponential backoff and jitter
-   */
+    */
   private calculateDelay(attempt: number): number {
     const exponentialDelay = this.config.baseDelay * Math.pow(this.config.backoffFactor, attempt - 1);
     const jitter = Math.random() * 0.1 * exponentialDelay; // 10% jitter
@@ -286,7 +286,7 @@ export class RetryUtil {
 
   /**
    * Create a timeout promise that rejects after specified time
-   */
+    */
   private createTimeoutPromise<T>(timeout: number, requestId: string, operation: string): Promise<T> {
     return new Promise((_, reject) => {
       setTimeout(() => {
@@ -303,7 +303,7 @@ export class RetryUtil {
 
   /**
    * Normalize different error types to RecommendationError
-   */
+    */
   private normalizeError(error: unknown, requestId: string, operation: string): RecommendationError {
     if (error instanceof Error && 'type' in error) {
       return error as RecommendationError;
@@ -345,7 +345,7 @@ export class RetryUtil {
 
   /**
    * Create a standardized RecommendationError
-   */
+    */
   private createError(
     type: RecommendationErrorType,
     message: string,
@@ -362,14 +362,14 @@ export class RetryUtil {
 
   /**
    * Sleep for specified milliseconds
-   */
+    */
   private sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
    * Logging methods for retry attempts
-   */
+    */
   private logRetryAttempt(requestId: string, attempt: number, error: RecommendationError, delay: number): void {
     console.warn(`[RetryUtil] ${requestId} - Attempt ${attempt} failed: ${error.message}. Retrying in ${delay}ms`);
   }
@@ -391,21 +391,21 @@ export class RetryUtil {
 
   /**
    * Get retry context for monitoring
-   */
+    */
   getRetryContext(requestId: string): RetryContext | undefined {
     return this.retryContexts.get(requestId);
   }
 
   /**
    * Get circuit breaker state
-   */
+    */
   getCircuitBreakerState(): CircuitBreakerState | null {
     return this.circuitBreaker?.getState() || null;
   }
 
   /**
    * Get performance metrics from retry operations
-   */
+    */
   getPerformanceMetrics(): Partial<PerformanceMetrics> {
     const contexts = Array.from(this.retryContexts.values());
     
@@ -429,14 +429,14 @@ export class RetryUtil {
 
   /**
    * Reset circuit breaker (for testing or manual intervention)
-   */
+    */
   resetCircuitBreaker(): void {
     this.circuitBreaker?.reset();
   }
 
   /**
    * Clear retry contexts (prevent memory leaks)
-   */
+    */
   clearOldContexts(maxAge: number = 3600000): void { // 1 hour default
     const cutoff = Date.now() - maxAge;
     

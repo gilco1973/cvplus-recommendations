@@ -1,11 +1,11 @@
 /**
  * Retry mechanism with exponential backoff
  * Extracted from CircuitBreaker.ts to comply with 200-line rule
- */
+  */
 export class RetryManager {
   /**
    * Executes a function with retry logic and exponential backoff
-   */
+    */
   static async withRetry<T>(
     fn: () => Promise<T>,
     maxAttempts: number = 3,
@@ -39,14 +39,14 @@ export class RetryManager {
 
   /**
    * Sleep utility function
-   */
+    */
   private static sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
    * Executes with retry and circuit breaker protection
-   */
+    */
   static async withRetryAndCircuitBreaker<T>(
     fn: () => Promise<T>,
     circuitBreaker: any,
@@ -62,7 +62,7 @@ export class RetryManager {
 
   /**
    * Creates a retryable function with predefined settings
-   */
+    */
   static createRetryableFunction<T>(
     fn: () => Promise<T>,
     maxAttempts: number = 3,
@@ -73,7 +73,7 @@ export class RetryManager {
 
   /**
    * Retries with jitter to avoid thundering herd
-   */
+    */
   static async withJitteredRetry<T>(
     fn: () => Promise<T>,
     maxAttempts: number = 3,

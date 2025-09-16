@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 export { RecommendationsOrchestrator } from './recommendations-orchestrator';
 export { RecommendationsExecutor } from './recommendations-executor';

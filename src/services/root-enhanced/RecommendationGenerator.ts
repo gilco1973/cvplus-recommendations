@@ -7,7 +7,7 @@ import { TimeoutManager } from './TimeoutManager';
 /**
  * RecommendationGenerator - Handles AI-powered recommendation generation
  * Coordinates with CVTransformationService for intelligent recommendations
- */
+  */
 export class RecommendationGenerator {
   private transformationService: CVTransformationService;
 
@@ -17,7 +17,7 @@ export class RecommendationGenerator {
 
   /**
    * Generates recommendations with multiple fallback strategies and circuit breaker protection
-   */
+    */
   async generateWithFallbacks(
     originalCV: ParsedCV,
     targetRole?: string,
@@ -91,7 +91,7 @@ export class RecommendationGenerator {
 
   /**
    * Generates comprehensive fallback recommendations
-   */
+    */
   generateComprehensiveFallback(originalCV: ParsedCV): CVRecommendation[] {
     console.log('🛠️ Generating comprehensive fallback recommendations');
     
@@ -154,7 +154,7 @@ export class RecommendationGenerator {
 
   /**
    * Generates emergency fallback recommendations when AI services fail
-   */
+    */
   private generateEmergencyRecommendations(originalCV: ParsedCV): CVRecommendation[] {
     const fallbackRecommendations: CVRecommendation[] = [];
     const baseId = `fallback_${Date.now()}`;

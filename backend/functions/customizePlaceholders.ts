@@ -9,7 +9,7 @@ import {
  * Firebase Function: customizePlaceholders
  * Customizes recommendation placeholders with user-provided values
  * Maximum 180 lines to comply with code standards
- */
+  */
 export const customizePlaceholders = onCall(
   {
     timeoutSeconds: 60,

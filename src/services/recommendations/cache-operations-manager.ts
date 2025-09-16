@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import type { CacheService } from '../cache.service';
 import type { CacheStats } from '../../types';
@@ -20,7 +20,7 @@ export class CacheOperationsManager {
 
   /**
    * Generate cache key for recommendations
-   */
+    */
   generateRecommendationsKey(params: {
     userId: string;
     jobId: string;
@@ -33,35 +33,35 @@ export class CacheOperationsManager {
 
   /**
    * Generate cache key for previews
-   */
+    */
   generatePreviewKey(jobId: string, recommendationId: string): string {
     return `preview:${jobId}:${recommendationId}`;
   }
 
   /**
    * Get cached recommendations
-   */
+    */
   async getCachedRecommendations<T>(cacheKey: string): Promise<T | null> {
     return this.cacheService.get<T>(cacheKey);
   }
 
   /**
    * Cache recommendations result
-   */
+    */
   async cacheRecommendations<T>(key: string, data: T, ttlMs: number = 24 * 60 * 60 * 1000): Promise<void> {
     await this.cacheService.set(key, data, ttlMs);
   }
 
   /**
    * Cache preview result
-   */
+    */
   async cachePreview<T>(key: string, data: T, ttlMs: number = 30 * 60 * 1000): Promise<void> {
     await this.cacheService.set(key, data, ttlMs);
   }
 
   /**
    * Invalidate cache for specific job
-   */
+    */
   async invalidateJobCache(jobId: string): Promise<void> {
     try {
       // This is a simplified implementation
@@ -85,7 +85,7 @@ export class CacheOperationsManager {
 
   /**
    * Invalidate cache for specific recommendation
-   */
+    */
   async invalidateRecommendationCache(jobId: string, recommendationId: string): Promise<void> {
     try {
       const keys = [
@@ -106,7 +106,7 @@ export class CacheOperationsManager {
 
   /**
    * Invalidate related cache entries for user and job
-   */
+    */
   async invalidateRelatedCache(jobId: string, userId?: string): Promise<void> {
     await this.invalidateJobCache(jobId);
     // Could extend to invalidate user-specific caches if needed
@@ -114,7 +114,7 @@ export class CacheOperationsManager {
 
   /**
    * Clear all cache
-   */
+    */
   async clearCache(): Promise<void> {
     await this.cacheService.clear();
     console.log('[CacheOperationsManager] All cache cleared');
@@ -122,14 +122,14 @@ export class CacheOperationsManager {
 
   /**
    * Get cache statistics
-   */
+    */
   getCacheStats(): CacheStats {
     return this.cacheService.getStats();
   }
 
   /**
    * Check cache health
-   */
+    */
   isCacheHealthy(): boolean {
     return this.cacheService.isHealthy();
   }

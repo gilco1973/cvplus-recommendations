@@ -1,7 +1,7 @@
 /**
  * Chat Service
  * Provides chat functionality for the recommendations system
- */
+  */
 
 export interface ChatMessage {
   id: string;

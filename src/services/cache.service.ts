@@ -12,7 +12,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { CacheCoreService } from './cache/cache-core-service';
 import type { 
@@ -23,7 +23,7 @@ import type {
 
 /**
  * Main Cache Service - maintains backward compatibility while using modular architecture
- */
+  */
 export class CacheService {
   private coreService: CacheCoreService;
 
@@ -37,35 +37,35 @@ export class CacheService {
 
   /**
    * Get value from cache with three-tier lookup
-   */
+    */
   async get<T>(key: string): Promise<T | null> {
     return this.coreService.get<T>(key);
   }
 
   /**
    * Set value in all cache tiers
-   */
+    */
   async set<T>(key: string, value: T, ttl?: number): Promise<void> {
     return this.coreService.set(key, value, ttl);
   }
 
   /**
    * Delete from all cache tiers
-   */
+    */
   async delete(key: string): Promise<void> {
     return this.coreService.delete(key);
   }
 
   /**
    * Clear all cache tiers
-   */
+    */
   async clear(): Promise<void> {
     return this.coreService.clear();
   }
 
   /**
    * Generate cache key for recommendations
-   */
+    */
   generateRecommendationsKey(params: {
     userId: string;
     jobId: string;
@@ -82,35 +82,35 @@ export class CacheService {
 
   /**
    * Get cache statistics
-   */
+    */
   getStats(): CacheStats {
     return this.coreService.getStats();
   }
 
   /**
    * Get performance metrics
-   */
+    */
   getPerformanceMetrics(): Partial<PerformanceMetrics> {
     return this.coreService.getPerformanceMetrics();
   }
 
   /**
    * Check if caching is healthy (for circuit breaker patterns)
-   */
+    */
   isHealthy(): boolean {
     return this.coreService.isHealthy();
   }
 
   /**
    * Get detailed health status
-   */
+    */
   getHealthStatus() {
     return this.coreService.getHealthStatus();
   }
 
   /**
    * Cleanup resources
-   */
+    */
   dispose(): void {
     this.coreService.dispose();
   }

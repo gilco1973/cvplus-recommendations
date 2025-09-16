@@ -1,9 +1,9 @@
 /**
  * Enhanced Database Service
  * Advanced database operations with caching and performance optimization
- */
+  */
 
-import * as admin from 'firebase-admin';
+import { admin, db, FieldValue } from '@cvplus/core';
 import { WithFieldValue, DocumentData } from 'firebase-admin/firestore';
 
 export interface DatabaseQuery {
@@ -23,7 +23,7 @@ export class EnhancedDbService {
   private db: admin.firestore.Firestore;
 
   constructor() {
-    this.db = admin.firestore();
+    this.db = db;
   }
 
   async query<T = any>(query: DatabaseQuery): Promise<DatabaseResult<T>> {

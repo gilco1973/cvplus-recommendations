@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import type { CacheEntry, CacheConfiguration } from '../../types';
 
@@ -22,7 +22,7 @@ export class MemoryManager {
 
   /**
    * Get value from memory cache
-   */
+    */
   get<T>(key: string): T | null {
     const entry = this.memoryCache.get(key);
     if (!entry) return null;
@@ -42,7 +42,7 @@ export class MemoryManager {
 
   /**
    * Set value in memory cache with eviction
-   */
+    */
   async set<T>(key: string, value: T, ttl: number): Promise<void> {
     // Check if we need to evict entries
     if (this.memoryCache.size >= this.config.maxSize) {
@@ -66,7 +66,7 @@ export class MemoryManager {
 
   /**
    * Delete from memory cache
-   */
+    */
   delete(key: string): void {
     this.memoryCache.delete(key);
     this.accessOrder.delete(key);
@@ -74,7 +74,7 @@ export class MemoryManager {
 
   /**
    * Clear all memory cache
-   */
+    */
   clear(): void {
     this.memoryCache.clear();
     this.accessOrder.clear();
@@ -82,14 +82,14 @@ export class MemoryManager {
 
   /**
    * Get cache size
-   */
+    */
   size(): number {
     return this.memoryCache.size;
   }
 
   /**
    * Get memory usage in bytes
-   */
+    */
   getMemoryUsage(): number {
     return Array.from(this.memoryCache.values())
       .reduce((total, entry) => total + entry.size, 0);
@@ -97,7 +97,7 @@ export class MemoryManager {
 
   /**
    * Get average age of cached entries
-   */
+    */
   getAverageAge(): number {
     if (this.memoryCache.size === 0) return 0;
 
@@ -109,7 +109,7 @@ export class MemoryManager {
 
   /**
    * Clean up expired entries
-   */
+    */
   cleanupExpired(): string[] {
     const now = Date.now();
     const expiredKeys: string[] = [];
@@ -126,14 +126,14 @@ export class MemoryManager {
 
   /**
    * Get all cache entries (for inspection)
-   */
+    */
   getAllEntries(): Array<[string, CacheEntry]> {
     return Array.from(this.memoryCache.entries());
   }
 
   /**
    * Evict entries based on configured strategy
-   */
+    */
   private async evictEntries(count: number): Promise<number> {
     let toEvict: string[] = [];
 
@@ -155,7 +155,7 @@ export class MemoryManager {
 
   /**
    * Get least recently used entries
-   */
+    */
   private getLRUEntries(count: number): string[] {
     return Array.from(this.accessOrder.entries())
       .sort((a, b) => a[1] - b[1])
@@ -165,7 +165,7 @@ export class MemoryManager {
 
   /**
    * Get least frequently used entries
-   */
+    */
   private getLFUEntries(count: number): string[] {
     return Array.from(this.memoryCache.entries())
       .sort((a, b) => a[1].accessCount - b[1].accessCount)
@@ -175,7 +175,7 @@ export class MemoryManager {
 
   /**
    * Get first in, first out entries
-   */
+    */
   private getFIFOEntries(count: number): string[] {
     return Array.from(this.memoryCache.entries())
       .sort((a, b) => a[1].createdAt.getTime() - b[1].createdAt.getTime())
@@ -185,14 +185,14 @@ export class MemoryManager {
 
   /**
    * Check if entry is expired
-   */
+    */
   private isExpired(entry: CacheEntry): boolean {
     return entry.expiresAt.getTime() < Date.now();
   }
 
   /**
    * Calculate size of value for memory tracking
-   */
+    */
   private calculateSize(value: unknown): number {
     try {
       return JSON.stringify(value).length;

@@ -12,14 +12,14 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { CallableRequest } from 'firebase-functions/v2/https';
 import { firebaseFunctionsAdapter } from '../../src/integration/firebase/functions-adapter';
 
 /**
  * Feature flags for controlling migration
- */
+  */
 export interface MigrationFeatureFlags {
   usePackageGetRecommendations: boolean;
   usePackageApplyImprovements: boolean;
@@ -32,7 +32,7 @@ export interface MigrationFeatureFlags {
 
 /**
  * Default feature flags - conservative rollout
- */
+  */
 const DEFAULT_FLAGS: MigrationFeatureFlags = {
   usePackageGetRecommendations: false,
   usePackageApplyImprovements: false,
@@ -45,7 +45,7 @@ const DEFAULT_FLAGS: MigrationFeatureFlags = {
 
 /**
  * Migration adapter that provides controlled rollout
- */
+  */
 export class MigrationAdapter {
   private flags: MigrationFeatureFlags;
 
@@ -56,7 +56,7 @@ export class MigrationAdapter {
 
   /**
    * Adaptive getRecommendations with fallback
-   */
+    */
   async getRecommendations(request: CallableRequest): Promise<any> {
     if (this.shouldUsePackage('usePackageGetRecommendations', request)) {
       try {
@@ -77,7 +77,7 @@ export class MigrationAdapter {
 
   /**
    * Adaptive applyImprovements with fallback
-   */
+    */
   async applyImprovements(request: CallableRequest): Promise<any> {
     if (this.shouldUsePackage('usePackageApplyImprovements', request)) {
       try {
@@ -98,7 +98,7 @@ export class MigrationAdapter {
 
   /**
    * Adaptive previewImprovement with fallback
-   */
+    */
   async previewImprovement(request: CallableRequest): Promise<any> {
     if (this.shouldUsePackage('usePackagePreviewImprovement', request)) {
       try {
@@ -119,7 +119,7 @@ export class MigrationAdapter {
 
   /**
    * customizePlaceholders - NEW FUNCTIONALITY (no fallback available)
-   */
+    */
   async customizePlaceholders(request: CallableRequest): Promise<any> {
     if (this.shouldUsePackage('usePackageCustomizePlaceholders', request)) {
       console.log('[MigrationAdapter] Using package implementation for customizePlaceholders (NEW)');
@@ -136,7 +136,7 @@ export class MigrationAdapter {
 
   /**
    * Determine if package implementation should be used
-   */
+    */
   private shouldUsePackage(flagName: keyof MigrationFeatureFlags, request: CallableRequest): boolean {
     // Check feature flag
     if (!this.flags[flagName]) {
@@ -161,7 +161,7 @@ export class MigrationAdapter {
 
   /**
    * Fallback to legacy implementation
-   */
+    */
   private async fallbackToLegacy(operation: string, request: CallableRequest): Promise<any> {
     try {
       // Import migrated services from local module
@@ -198,7 +198,7 @@ export class MigrationAdapter {
 
   /**
    * Legacy getRecommendations implementation
-   */
+    */
   private async legacyGetRecommendations(orchestrator: any, request: CallableRequest, userId: string): Promise<any> {
     const { jobId, targetRole, industryKeywords, forceRegenerate } = request.data;
     
@@ -213,7 +213,7 @@ export class MigrationAdapter {
 
   /**
    * Legacy applyImprovements implementation
-   */
+    */
   private async legacyApplyImprovements(orchestrator: any, request: CallableRequest, userId: string): Promise<any> {
     const { jobId, selectedRecommendationIds, targetRole, industryKeywords } = request.data;
     
@@ -228,7 +228,7 @@ export class MigrationAdapter {
 
   /**
    * Legacy previewImprovement implementation
-   */
+    */
   private async legacyPreviewImprovement(orchestrator: any, request: CallableRequest, userId: string): Promise<any> {
     const { jobId, recommendationId } = request.data;
     
@@ -241,7 +241,7 @@ export class MigrationAdapter {
 
   /**
    * Simple hash function for user ID
-   */
+    */
   private simpleHash(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -254,7 +254,7 @@ export class MigrationAdapter {
 
   /**
    * Update feature flags at runtime
-   */
+    */
   updateFlags(flags: Partial<MigrationFeatureFlags>): void {
     this.flags = { ...this.flags, ...flags };
     console.log('[MigrationAdapter] Updated flags:', this.flags);
@@ -262,7 +262,7 @@ export class MigrationAdapter {
 
   /**
    * Get current migration status
-   */
+    */
   getMigrationStatus(): {
     flags: MigrationFeatureFlags;
     packageVersion: string;

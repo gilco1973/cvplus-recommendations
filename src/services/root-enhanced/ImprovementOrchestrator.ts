@@ -4,7 +4,7 @@ import { ActionOrchestrator } from './ActionOrchestrator';
 /**
  * ImprovementOrchestrator - Main coordinator for all recommendation operations
  * Delegates to specialized orchestrators to comply with 200-line rule
- */
+  */
 export class ImprovementOrchestrator {
   private recommendationOrchestrator: RecommendationOrchestrator;
   private actionOrchestrator: ActionOrchestrator;
@@ -16,7 +16,7 @@ export class ImprovementOrchestrator {
 
   /**
    * Orchestrates the complete recommendation generation process
-   */
+    */
   async generateRecommendations(
     jobId: string,
     userId: string,
@@ -31,7 +31,7 @@ export class ImprovementOrchestrator {
 
   /**
    * Orchestrates the application of selected recommendations
-   */
+    */
   async applySelectedRecommendations(
     jobId: string,
     userId: string,
@@ -46,7 +46,7 @@ export class ImprovementOrchestrator {
 
   /**
    * Orchestrates recommendation preview generation
-   */
+    */
   async previewRecommendation(
     jobId: string,
     userId: string,
@@ -57,7 +57,7 @@ export class ImprovementOrchestrator {
 
   /**
    * Orchestrates placeholder customization
-   */
+    */
   async customizePlaceholders(
     jobId: string,
     userId: string,
@@ -71,14 +71,14 @@ export class ImprovementOrchestrator {
 
   /**
    * Gets processing status for a job
-   */
+    */
   async getProcessingStatus(jobId: string, userId: string): Promise<any> {
     return this.actionOrchestrator.getProcessingStatus(jobId, userId);
   }
 
   /**
    * Validates multiple recommendations for batch operations
-   */
+    */
   async validateBatchRecommendations(
     jobId: string,
     userId: string,
@@ -89,28 +89,28 @@ export class ImprovementOrchestrator {
 
   /**
    * Clears active requests (for testing and monitoring)
-   */
+    */
   clearActiveRequests(): void {
     this.recommendationOrchestrator.clearActiveRequests();
   }
 
   /**
    * Gets active request count (for monitoring)
-   */
+    */
   getActiveRequestCount(): number {
     return this.recommendationOrchestrator.getActiveRequestCount();
   }
 
   /**
    * Gets active request keys (for debugging)
-   */
+    */
   getActiveRequestKeys(): string[] {
     return this.recommendationOrchestrator.getActiveRequestKeys();
   }
 
   /**
    * Forces cleanup of a specific request
-   */
+    */
   forceCleanupRequest(requestKey: string): boolean {
     return this.recommendationOrchestrator.forceCleanupRequest(requestKey);
   }

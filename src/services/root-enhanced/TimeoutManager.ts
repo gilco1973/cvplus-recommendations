@@ -1,11 +1,11 @@
 /**
  * Timeout manager with configurable timeouts
  * Extracted from CircuitBreaker.ts to comply with 200-line rule
- */
+  */
 export class TimeoutManager {
   /**
    * Wraps a function with a timeout
-   */
+    */
   static withTimeout<T>(
     fn: () => Promise<T>,
     timeoutMs: number,
@@ -23,7 +23,7 @@ export class TimeoutManager {
 
   /**
    * Creates a timeout promise that rejects after specified time
-   */
+    */
   static createTimeout(timeoutMs: number, message?: string): Promise<never> {
     return new Promise((_, reject) => {
       setTimeout(() => {
@@ -34,7 +34,7 @@ export class TimeoutManager {
 
   /**
    * Wraps multiple functions with the same timeout
-   */
+    */
   static withTimeoutMultiple<T>(
     functions: (() => Promise<T>)[],
     timeoutMs: number,
@@ -48,7 +48,7 @@ export class TimeoutManager {
 
   /**
    * Creates a timeout wrapper function
-   */
+    */
   static createTimeoutWrapper<T>(
     timeoutMs: number,
     timeoutMessage?: string
@@ -58,7 +58,7 @@ export class TimeoutManager {
 
   /**
    * Executes with a dynamic timeout based on operation complexity
-   */
+    */
   static withDynamicTimeout<T>(
     fn: () => Promise<T>,
     baseTimeoutMs: number,
@@ -72,7 +72,7 @@ export class TimeoutManager {
 
   /**
    * Executes with escalating timeouts on retry
-   */
+    */
   static withEscalatingTimeout<T>(
     fn: () => Promise<T>,
     initialTimeoutMs: number,
@@ -107,7 +107,7 @@ export class TimeoutManager {
 
   /**
    * Creates a timeout with cleanup callback
-   */
+    */
   static withTimeoutAndCleanup<T>(
     fn: () => Promise<T>,
     timeoutMs: number,

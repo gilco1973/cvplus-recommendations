@@ -12,7 +12,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 // Core recommendation functions
 export { getRecommendations } from './getRecommendations';
@@ -27,7 +27,7 @@ export { firebaseFunctionsAdapter } from '../../src/integration/firebase/functio
 
 /**
  * Health check function for the recommendations package
- */
+  */
 import { onCall } from 'firebase-functions/v2/https';
 import { corsOptions } from '@cvplus/core/config/cors';
 
@@ -60,7 +60,7 @@ export const recommendationsHealthCheck = onCall(
 
 /**
  * Migration utilities for progressive rollout
- */
+  */
 export const MIGRATION_CONFIG = {
   packageVersion: '1.0.0',
   compatibilityMode: true,

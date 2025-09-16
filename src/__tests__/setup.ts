@@ -1,7 +1,7 @@
 /**
  * Test Setup Configuration
  * Handles Firebase mocking and test environment initialization
- */
+  */
 
 import { vi, beforeAll } from 'vitest';
 

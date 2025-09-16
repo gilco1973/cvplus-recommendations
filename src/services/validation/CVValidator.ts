@@ -1,13 +1,13 @@
 /**
  * CVValidator - Validates CV data structure and content quality
  * Broken out from ValidationEngine to comply with 200-line limit
- */
+  */
 import { ParsedCV } from '../root-enhanced/compatibility';
 
 export class CVValidator {
   /**
    * Validates CV structure and data quality
-   */
+    */
   validateCVStructure(cv: ParsedCV): {
     isValid: boolean;
     errors: string[];
@@ -96,7 +96,7 @@ export class CVValidator {
 
   /**
    * Validates email format
-   */
+    */
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -104,7 +104,7 @@ export class CVValidator {
 
   /**
    * Validates phone number format (basic)
-   */
+    */
   private isValidPhone(phone: string): boolean {
     // Remove all non-digit characters
     const digitsOnly = phone.replace(/\D/g, '');
@@ -114,7 +114,7 @@ export class CVValidator {
 
   /**
    * Validates date format and logic
-   */
+    */
   private isValidDateRange(startDate: string, endDate?: string): boolean {
     try {
       const start = new Date(startDate);

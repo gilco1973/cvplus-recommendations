@@ -15,7 +15,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0 - Full Implementation
- */
+  */
 
 import type {
   Recommendation,
@@ -223,7 +223,7 @@ export class CareerDevelopmentService {
 
   /**
    * Analyze potential career paths based on current CV
-   */
+    */
   async analyzeCareerPaths(cvData: CVParsedData, preferences?: {
     industry?: string;
     targetLevel?: string;
@@ -271,7 +271,7 @@ export class CareerDevelopmentService {
 
   /**
    * Generate comprehensive learning path recommendations
-   */
+    */
   async generateLearningPaths(
     cvData: CVParsedData,
     targetRole?: string,
@@ -299,7 +299,7 @@ export class CareerDevelopmentService {
 
   /**
    * Provide industry insights and trends
-   */
+    */
   async getCareerInsights(
     cvData: CVParsedData,
     industry?: string
@@ -343,7 +343,7 @@ export class CareerDevelopmentService {
 
   /**
    * Generate interview preparation recommendations
-   */
+    */
   async generateInterviewPreparation(
     cvData: CVParsedData,
     targetRole: string,

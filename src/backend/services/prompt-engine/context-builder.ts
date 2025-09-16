@@ -6,14 +6,14 @@
  *
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { ParsedCV } from '../../types/enhanced-models';
 
 export class ContextBuilder {
   /**
    * Builds comprehensive context layer from CV data
-   */
+    */
   async buildContextLayer(cv: ParsedCV): Promise<string> {
     try {
       const strengthsAnalysis = this.extractKeyStrengths(cv);

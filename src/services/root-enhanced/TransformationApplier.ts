@@ -1,22 +1,22 @@
-import { getFirestore } from 'firebase-admin/firestore';
+import { db } from '@cvplus/core';
 import { CVTransformationService, CVRecommendation, ParsedCV } from './compatibility';
 
 /**
  * TransformationApplier - Handles application of recommendations to CV
  * Manages the process of applying selected improvements and saving results
- */
+  */
 export class TransformationApplier {
   private db: FirebaseFirestore.Firestore;
   private transformationService: CVTransformationService;
 
   constructor() {
-    this.db = getFirestore();
+    this.db = db;
     this.transformationService = new CVTransformationService();
   }
 
   /**
    * Applies selected recommendations to a CV and saves results
-   */
+    */
   async applyRecommendationsToCV(
     jobId: string,
     originalCV: ParsedCV,
@@ -87,7 +87,7 @@ export class TransformationApplier {
 
   /**
    * Generates a preview of what a single recommendation would look like when applied
-   */
+    */
   async generateRecommendationPreview(
     originalCV: ParsedCV,
     recommendation: CVRecommendation
@@ -132,7 +132,7 @@ export class TransformationApplier {
 
   /**
    * Stores generated recommendations with metadata
-   */
+    */
   async storeRecommendations(
     jobId: string,
     recommendations: CVRecommendation[],
@@ -162,7 +162,7 @@ export class TransformationApplier {
 
   /**
    * Updates job status during processing
-   */
+    */
   async updateProcessingStatus(
     jobId: string,
     status: string,
@@ -185,7 +185,7 @@ export class TransformationApplier {
 
   /**
    * Handles error states and updates job status accordingly
-   */
+    */
   async handleProcessingError(
     jobId: string,
     error: any,
@@ -212,7 +212,7 @@ export class TransformationApplier {
 
   /**
    * Cleans up temporary processing data
-   */
+    */
   async cleanupProcessingData(jobId: string): Promise<void> {
     try {
       await this.db.collection('jobs').doc(jobId).update({

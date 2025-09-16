@@ -13,7 +13,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0 - Full Implementation
- */
+  */
 
 import type {
   CVParsedData,
@@ -199,7 +199,7 @@ export class RecommendationEngineService {
 
   /**
    * Perform comprehensive CV analysis with AI and rule-based recommendations
-   */
+    */
   async analyzeCVComprehensively(
     cvData: CVParsedData,
     targetRole?: string,
@@ -245,7 +245,7 @@ export class RecommendationEngineService {
 
   /**
    * Analyze role compatibility and provide targeted recommendations
-   */
+    */
   async analyzeRoleCompatibility(
     cvData: CVParsedData,
     targetRole: string,
@@ -297,7 +297,7 @@ export class RecommendationEngineService {
 
   /**
    * Generate recommendations for specific CV improvements
-   */
+    */
   async generateTargetedRecommendations(
     cvData: CVParsedData,
     focus: 'skills' | 'experience' | 'ats' | 'content' | 'all',

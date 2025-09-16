@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { generateId } from '../../utils/core';
 import { CacheService } from '../cache.service';
@@ -62,7 +62,7 @@ export class RecommendationsOrchestrator {
 
   /**
    * Get recommendations with caching and retry logic
-   */
+    */
   async getRecommendations(params: GetRecommendationsParams): Promise<GetRecommendationsResponse> {
     const requestId = generateId();
     const startTime = Date.now();
@@ -140,7 +140,7 @@ export class RecommendationsOrchestrator {
 
   /**
    * Apply improvements with validation and caching
-   */
+    */
   async applyImprovements(params: ApplyImprovementsParams): Promise<ApplyImprovementsResponse> {
     const requestId = generateId();
     const startTime = Date.now();
@@ -192,7 +192,7 @@ export class RecommendationsOrchestrator {
 
   /**
    * Preview improvement with caching
-   */
+    */
   async previewImprovement(params: PreviewImprovementParams): Promise<PreviewImprovementResponse> {
     const requestId = generateId();
     const startTime = Date.now();
@@ -254,7 +254,7 @@ export class RecommendationsOrchestrator {
 
   /**
    * Customize placeholders in recommendations
-   */
+    */
   async customizePlaceholders(params: CustomizePlaceholdersParams): Promise<CustomizePlaceholdersResponse> {
     const requestId = generateId();
     const startTime = Date.now();
@@ -310,21 +310,21 @@ export class RecommendationsOrchestrator {
 
   /**
    * Invalidate cache for specific job
-   */
+    */
   async invalidateCache(jobId: string): Promise<void> {
     return this.cacheOps.invalidateJobCache(jobId);
   }
 
   /**
    * Refresh all cache
-   */
+    */
   async refreshCache(): Promise<void> {
     return this.cacheOps.clearCache();
   }
 
   /**
    * Get cache statistics
-   */
+    */
   getCacheStats(): CacheStats {
     return this.cacheOps.getCacheStats();
   }
@@ -335,35 +335,35 @@ export class RecommendationsOrchestrator {
 
   /**
    * Get performance metrics
-   */
+    */
   getPerformanceMetrics(): PerformanceMetrics {
     return this.metricsManager.getPerformanceMetrics();
   }
 
   /**
    * Check service health
-   */
+    */
   isHealthy(): boolean {
     return this.metricsManager.isHealthy();
   }
 
   /**
    * Get detailed health status
-   */
+    */
   getHealthStatus() {
     return this.metricsManager.getHealthStatus();
   }
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     this.metricsManager.resetMetrics();
   }
 
   /**
    * Cleanup resources
-   */
+    */
   dispose(): void {
     this.metricsManager.dispose();
     this.cacheService.dispose();

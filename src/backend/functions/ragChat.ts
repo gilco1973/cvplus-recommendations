@@ -1,9 +1,9 @@
 /**
  * Cloud Functions for RAG Chat feature
- */
+  */
 
 import { onCall, CallableRequest, HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin, FieldValue } from '@cvplus/core';
 import { embeddingService } from '../../services/embedding.service';
 import { chatService } from '../../services/chat.service';
 import { enhancedDbService } from '../../services/enhanced-db.service';
@@ -13,7 +13,7 @@ import { corsOptions } from '../../config/cors';
 
 /**
  * Initialize RAG for a CV
- */
+  */
 export const initializeRAG = onCall(
   {
     timeoutSeconds: 540,
@@ -124,7 +124,7 @@ export const initializeRAG = onCall(
 
 /**
  * Start a new chat session
- */
+  */
 export const startChatSession = onCall(
   { ...corsOptions },
   async (request: CallableRequest<{ jobId: string; visitorId?: string; metadata?: any }>) => {
@@ -191,7 +191,7 @@ export const startChatSession = onCall(
 
 /**
  * Send a chat message
- */
+  */
 export const sendChatMessage = onCall(
   {
     timeoutSeconds: 60,
@@ -259,8 +259,8 @@ export const sendChatMessage = onCall(
         .collection('ragProfiles')
         .doc(`${job.userId}_${jobId}`)
         .update({
-          'statistics.totalQueries': admin.firestore.FieldValue.increment(1),
-          'statistics.averageResponseTime': admin.firestore.FieldValue.increment(responseTime)
+          'statistics.totalQueries': FieldValue.increment(1),
+          'statistics.averageResponseTime': FieldValue.increment(responseTime)
         });
 
       return {
@@ -280,7 +280,7 @@ export const sendChatMessage = onCall(
 
 /**
  * End chat session and collect feedback
- */
+  */
 export const endChatSession = onCall(
   { ...corsOptions },
   async (request: CallableRequest<{ sessionId: string; rating?: number; feedback?: string }>) => {
@@ -312,7 +312,7 @@ export const endChatSession = onCall(
 
 /**
  * Update RAG embeddings when CV is updated
- */
+  */
 export const updateRAGEmbeddings = onCall(
   {
     timeoutSeconds: 540,
@@ -384,7 +384,7 @@ export const updateRAGEmbeddings = onCall(
 
 /**
  * Get chat analytics
- */
+  */
 export const getChatAnalytics = onCall(
   { ...corsOptions },
   async (request: CallableRequest<{ jobId: string }>) => {

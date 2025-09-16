@@ -6,10 +6,10 @@
  *
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import OpenAI from 'openai';
-import { config } from '../../config/environment';
+import { config } from '../../../config/environment';
 import { ParsedCV } from '../../types/enhanced-models';
 import { IndustryTemplate } from '../../types/industry-specialization';
 import {
@@ -50,7 +50,7 @@ export class CorePromptEngine {
 
   /**
    * Generates enhanced video script using multi-layer prompt architecture
-   */
+    */
   async generateEnhancedScript(
     cv: ParsedCV,
     options: PromptEngineOptions = {},

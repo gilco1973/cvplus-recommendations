@@ -6,10 +6,10 @@
  *
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import OpenAI from 'openai';
-import { config } from '../../config/environment';
+import { config } from '../../../config/environment';
 import { ScriptQualityMetrics, PersonalityProfile } from './types';
 import { IndustryTemplate } from '../../types/industry-specialization';
 
@@ -24,7 +24,7 @@ export class QualityAssessor {
 
   /**
    * Comprehensive script quality assessment
-   */
+    */
   async assessScriptQuality(
     script: string,
     personalityProfile: PersonalityProfile,

@@ -6,7 +6,7 @@
  *
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { ParsedCV } from '../../types/enhanced-models';
 import { PersonalityProfile } from './types';
@@ -15,7 +15,7 @@ import { IndustryTemplate } from '../../types/industry-specialization';
 export class PromptOptimizer {
   /**
    * Builds optimization layer for prompts
-   */
+    */
   async buildOptimizationLayer(
     cv: ParsedCV,
     personalityProfile: PersonalityProfile,

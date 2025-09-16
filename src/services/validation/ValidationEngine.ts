@@ -1,7 +1,7 @@
 /**
  * ValidationEngine - Orchestrates validation using specialized validators
  * Refactored to use composition instead of monolithic implementation
- */
+  */
 import { RequestValidator } from './RequestValidator';
 import { AuthValidator } from './AuthValidator';
 import { RecommendationValidator } from './RecommendationValidator';
@@ -23,42 +23,42 @@ export class ValidationEngine {
 
   /**
    * Validates request parameters for recommendation operations
-   */
+    */
   validateRecommendationRequest(data: any) {
     return this.requestValidator.validateRecommendationRequest(data);
   }
 
   /**
    * Validates Firebase Functions authentication context
-   */
+    */
   validateAuth(request: any) {
     return this.authValidator.validateAuth(request);
   }
 
   /**
    * Validates a single recommendation object
-   */
+    */
   validateSingleRecommendation(rec: CVRecommendation) {
     return this.recommendationValidator.validateSingleRecommendation(rec);
   }
 
   /**
    * Validates an array of recommendations
-   */
+    */
   validateRecommendations(recommendations: CVRecommendation[]) {
     return this.recommendationValidator.validateRecommendations(recommendations);
   }
 
   /**
    * Validates CV structure and data quality
-   */
+    */
   validateCVStructure(cv: ParsedCV) {
     return this.cvValidator.validateCVStructure(cv);
   }
 
   /**
    * Validates transformation result
-   */
+    */
   validateTransformationResult(result: any): {
     isValid: boolean;
     errors: string[];
@@ -109,7 +109,7 @@ export class ValidationEngine {
 
   /**
    * Validates user permissions for operations
-   */
+    */
   validateUserPermissions(userId: string, operation: string): boolean {
     return this.authValidator.validateUserPermissions(userId, operation);
   }

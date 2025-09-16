@@ -1,7 +1,7 @@
 /**
  * Environment Configuration
  * Manages environment variables and configuration for the recommendations module
- */
+  */
 
 export const config = {
   openai: {

@@ -3,7 +3,7 @@
  * 
  * This is a stub implementation that will be fully developed in a future iteration.
  * Currently returns basic recommendations based on feature analysis.
- */
+  */
 
 import { FeatureVector, PredictiveRecommendation } from '@cvplus/core/types/phase2-models';
 import { PredictionRequest } from '@cvplus/analytics/services/ml-pipeline/core/MLPipelineOrchestrator';

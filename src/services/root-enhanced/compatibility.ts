@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @migrated 2025-08-29
- */
+  */
 
 import { CVParsedData } from '../../types';
 import { Recommendation } from '../../types';
@@ -37,7 +37,7 @@ export interface PlaceholderManager {
 /**
  * Temporary CV Transformation Service for compatibility
  * This service provides minimal functionality until full migration
- */
+  */
 export class CVTransformationService {
   async transformCV(cvData: CVParsedData, recommendations: Recommendation[]): Promise<CVParsedData> {
     // Basic transformation - applies recommendations to CV data
@@ -84,7 +84,7 @@ export class CVTransformationService {
 
 /**
  * Simple placeholder manager implementation
- */
+  */
 export class SimplePlaceholderManager implements PlaceholderManager {
   replacePlaceholders(content: string, replacements: PlaceholderReplacementMap): string {
     let result = content;

@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.1.0
  * @migrated 2025-08-29 - Enhanced with root functions implementation
- */
+  */
 
 // Export all Firebase Functions
 export {

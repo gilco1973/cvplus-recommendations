@@ -1,14 +1,14 @@
 /**
  * RecommendationValidator - Validates recommendation data structure and content
  * Broken out from ValidationEngine to comply with 200-line limit
- */
+  */
 import { CVSection, ImpactLevel } from '../../types';
 import { CVRecommendation } from '../root-enhanced/compatibility';
 
 export class RecommendationValidator {
   /**
    * Validates a single recommendation object structure and content
-   */
+    */
   validateSingleRecommendation(rec: CVRecommendation): {
     isValid: boolean;
     errors: string[];
@@ -69,7 +69,7 @@ export class RecommendationValidator {
 
   /**
    * Validates an array of recommendations
-   */
+    */
   validateRecommendations(recommendations: CVRecommendation[]): {
     isValid: boolean;
     errors: string[];

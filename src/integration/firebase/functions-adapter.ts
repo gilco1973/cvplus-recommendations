@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { CallableRequest } from 'firebase-functions/v2/https';
 import { recommendationsService } from '../../services/recommendations.service';
@@ -24,7 +24,7 @@ import type {
 /**
  * Firebase Functions integration adapter
  * Maintains 100% API compatibility with existing Firebase function interfaces
- */
+  */
 export class FirebaseFunctionsAdapter {
   private static instance: FirebaseFunctionsAdapter;
 
@@ -32,7 +32,7 @@ export class FirebaseFunctionsAdapter {
 
   /**
    * Get singleton instance
-   */
+    */
   static getInstance(): FirebaseFunctionsAdapter {
     if (!FirebaseFunctionsAdapter.instance) {
       FirebaseFunctionsAdapter.instance = new FirebaseFunctionsAdapter();
@@ -42,7 +42,7 @@ export class FirebaseFunctionsAdapter {
 
   /**
    * Get recommendations - Firebase function compatible interface
-   */
+    */
   async getRecommendations(request: CallableRequest): Promise<any> {
     try {
       // Validate authentication
@@ -89,7 +89,7 @@ export class FirebaseFunctionsAdapter {
 
   /**
    * Apply improvements - Firebase function compatible interface
-   */
+    */
   async applyImprovements(request: CallableRequest): Promise<any> {
     try {
       // Validate authentication
@@ -135,7 +135,7 @@ export class FirebaseFunctionsAdapter {
 
   /**
    * Preview improvement - Firebase function compatible interface
-   */
+    */
   async previewImprovement(request: CallableRequest): Promise<any> {
     try {
       // Validate authentication
@@ -180,7 +180,7 @@ export class FirebaseFunctionsAdapter {
   /**
    * Customize placeholders - Firebase function compatible interface
    * MISSING FUNCTIONALITY - Now implemented
-   */
+    */
   async customizePlaceholders(request: CallableRequest): Promise<any> {
     try {
       // Validate authentication
@@ -225,7 +225,7 @@ export class FirebaseFunctionsAdapter {
 
   /**
    * Health check for monitoring
-   */
+    */
   async healthCheck(): Promise<{ healthy: boolean; timestamp: string; details: any }> {
     try {
       const health = recommendationsService.getHealthStatus();

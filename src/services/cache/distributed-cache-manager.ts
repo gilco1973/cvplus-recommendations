@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { createHash } from 'node:crypto';
 import type { CacheEntry, CacheConfiguration } from '../../types';
@@ -24,7 +24,7 @@ export class DistributedCacheManager {
 
   /**
    * Get value from Redis cache
-   */
+    */
   async getFromRedis<T>(key: string): Promise<T | null> {
     // TODO: Implement Redis cache integration
     // For now, return null to fallback to Firestore
@@ -33,7 +33,7 @@ export class DistributedCacheManager {
 
   /**
    * Set value in Redis cache
-   */
+    */
   async setInRedis<T>(key: string, value: T, ttl?: number): Promise<void> {
     // TODO: Implement Redis cache integration
     console.log(`[DistributedCacheManager] Redis set would store: ${key}`);
@@ -41,7 +41,7 @@ export class DistributedCacheManager {
 
   /**
    * Delete from Redis cache
-   */
+    */
   async deleteFromRedis(key: string): Promise<void> {
     // TODO: Implement Redis cache integration
     console.log(`[DistributedCacheManager] Redis delete would remove: ${key}`);
@@ -49,7 +49,7 @@ export class DistributedCacheManager {
 
   /**
    * Clear Redis cache
-   */
+    */
   async clearRedis(): Promise<void> {
     // TODO: Implement Redis cache integration
     console.log('[DistributedCacheManager] Redis clear would flush all keys');
@@ -61,7 +61,7 @@ export class DistributedCacheManager {
 
   /**
    * Get value from Firestore cache
-   */
+    */
   async getFromFirestore<T>(key: string): Promise<T | null> {
     try {
       if (!this.config.firestore) return null;
@@ -91,7 +91,7 @@ export class DistributedCacheManager {
 
   /**
    * Set value in Firestore cache
-   */
+    */
   async setInFirestore<T>(key: string, value: T, ttl?: number): Promise<void> {
     try {
       if (!this.config.firestore) return;
@@ -120,7 +120,7 @@ export class DistributedCacheManager {
 
   /**
    * Delete from Firestore cache
-   */
+    */
   async deleteFromFirestore(key: string): Promise<void> {
     try {
       if (!this.config.firestore) return;
@@ -137,7 +137,7 @@ export class DistributedCacheManager {
 
   /**
    * Clear Firestore cache
-   */
+    */
   async clearFirestore(): Promise<void> {
     try {
       if (!this.config.firestore) return;
@@ -161,21 +161,21 @@ export class DistributedCacheManager {
 
   /**
    * Hash cache key for consistent storage
-   */
+    */
   hashKey(key: string): string {
     return createHash('sha256').update(key).digest('hex');
   }
 
   /**
    * Check if cache entry is expired
-   */
+    */
   private isExpired(entry: CacheEntry): boolean {
     return entry.expiresAt.getTime() < Date.now();
   }
 
   /**
    * Calculate size of value for storage tracking
-   */
+    */
   private calculateSize(value: unknown): number {
     try {
       return JSON.stringify(value).length;
@@ -186,14 +186,14 @@ export class DistributedCacheManager {
 
   /**
    * Check if Redis is configured and available
-   */
+    */
   isRedisAvailable(): boolean {
     return !!this.config.redis;
   }
 
   /**
    * Check if Firestore is configured and available
-   */
+    */
   isFirestoreAvailable(): boolean {
     return !!this.config.firestore;
   }

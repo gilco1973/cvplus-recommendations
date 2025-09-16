@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { createHash } from 'node:crypto';
 import { MemoryManager } from './memory-manager';
@@ -65,7 +65,7 @@ export class CacheCoreService {
 
   /**
    * Get value from cache with three-tier lookup
-   */
+    */
   async get<T>(key: string): Promise<T | null> {
     const startTime = Date.now();
 
@@ -115,7 +115,7 @@ export class CacheCoreService {
 
   /**
    * Set value in all configured cache tiers
-   */
+    */
   async set<T>(key: string, value: T, ttl?: number): Promise<void> {
     try {
       const memoryTTL = ttl || this.config.memory.ttl;
@@ -145,7 +145,7 @@ export class CacheCoreService {
 
   /**
    * Delete from all cache tiers
-   */
+    */
   async delete(key: string): Promise<void> {
     try {
       const promises = [
@@ -169,7 +169,7 @@ export class CacheCoreService {
 
   /**
    * Clear all cache tiers
-   */
+    */
   async clear(): Promise<void> {
     try {
       const promises = [
@@ -198,7 +198,7 @@ export class CacheCoreService {
 
   /**
    * Generate cache key for recommendations
-   */
+    */
   generateRecommendationsKey(params: {
     userId: string;
     jobId: string;
@@ -220,35 +220,35 @@ export class CacheCoreService {
 
   /**
    * Get cache statistics
-   */
+    */
   getStats(): CacheStats {
     return this.statsManager.getStats();
   }
 
   /**
    * Get performance metrics
-   */
+    */
   getPerformanceMetrics(): Partial<PerformanceMetrics> {
     return this.statsManager.getPerformanceMetrics();
   }
 
   /**
    * Check if cache system is healthy
-   */
+    */
   isHealthy(): boolean {
     return this.statsManager.isHealthy();
   }
 
   /**
    * Get detailed health status
-   */
+    */
   getHealthStatus() {
     return this.statsManager.getHealthStatus();
   }
 
   /**
    * Cleanup resources
-   */
+    */
   dispose(): void {
     this.statsManager.dispose();
   }

@@ -12,7 +12,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { RecommendationsOrchestrator } from './recommendations/recommendations-orchestrator';
 import type {
@@ -30,7 +30,7 @@ import type {
 
 /**
  * Main Recommendations Service - maintains backward compatibility while using modular architecture
- */
+  */
 export class RecommendationsService {
   private orchestrator: RecommendationsOrchestrator;
 
@@ -44,28 +44,28 @@ export class RecommendationsService {
 
   /**
    * Get recommendations with caching and retry logic
-   */
+    */
   async getRecommendations(params: GetRecommendationsParams): Promise<GetRecommendationsResponse> {
     return this.orchestrator.getRecommendations(params);
   }
 
   /**
    * Apply improvements with validation and caching
-   */
+    */
   async applyImprovements(params: ApplyImprovementsParams): Promise<ApplyImprovementsResponse> {
     return this.orchestrator.applyImprovements(params);
   }
 
   /**
    * Preview improvement with caching
-   */
+    */
   async previewImprovement(params: PreviewImprovementParams): Promise<PreviewImprovementResponse> {
     return this.orchestrator.previewImprovement(params);
   }
 
   /**
    * Customize placeholders in recommendations
-   */
+    */
   async customizePlaceholders(params: CustomizePlaceholdersParams): Promise<CustomizePlaceholdersResponse> {
     return this.orchestrator.customizePlaceholders(params);
   }
@@ -76,21 +76,21 @@ export class RecommendationsService {
 
   /**
    * Invalidate cache for specific job
-   */
+    */
   async invalidateCache(jobId: string): Promise<void> {
     return this.orchestrator.invalidateCache(jobId);
   }
 
   /**
    * Refresh all cache
-   */
+    */
   async refreshCache(): Promise<void> {
     return this.orchestrator.refreshCache();
   }
 
   /**
    * Get cache statistics
-   */
+    */
   getCacheStats(): CacheStats {
     return this.orchestrator.getCacheStats();
   }
@@ -101,35 +101,35 @@ export class RecommendationsService {
 
   /**
    * Get performance metrics
-   */
+    */
   getPerformanceMetrics(): PerformanceMetrics {
     return this.orchestrator.getPerformanceMetrics();
   }
 
   /**
    * Health check for the service
-   */
+    */
   isHealthy(): boolean {
     return this.orchestrator.isHealthy();
   }
 
   /**
    * Get detailed health status
-   */
+    */
   getHealthStatus() {
     return this.orchestrator.getHealthStatus();
   }
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     return this.orchestrator.resetMetrics();
   }
 
   /**
    * Cleanup resources
-   */
+    */
   dispose(): void {
     this.orchestrator.dispose();
   }

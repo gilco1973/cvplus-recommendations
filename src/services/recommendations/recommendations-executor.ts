@@ -6,9 +6,9 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
-import { PlaceholderCustomizationService } from '../customization/placeholder-customization.service';
+// TODO: Placeholder customization service needs to be reimplemented
 import { RecommendationErrorType } from '../../types';
 import type {
   GetRecommendationsParams,
@@ -27,15 +27,16 @@ import type {
 // ============================================================================
 
 export class RecommendationsExecutor {
-  private placeholderService: PlaceholderCustomizationService;
+  // TODO: Placeholder service will be reimplemented
+  // private placeholderService: PlaceholderCustomizationService;
 
   constructor() {
-    this.placeholderService = new PlaceholderCustomizationService();
+    // this.placeholderService = new PlaceholderCustomizationService();
   }
 
   /**
    * Execute recommendation generation via Firebase function
-   */
+    */
   async executeRecommendationGeneration(
     params: GetRecommendationsParams,
     requestId: string
@@ -80,7 +81,7 @@ export class RecommendationsExecutor {
 
   /**
    * Execute improvement application via Firebase function
-   */
+    */
   async executeImprovementApplication(
     params: ApplyImprovementsParams,
     requestId: string
@@ -121,7 +122,7 @@ export class RecommendationsExecutor {
 
   /**
    * Execute preview generation via Firebase function
-   */
+    */
   async executePreviewGeneration(
     params: PreviewImprovementParams,
     requestId: string
@@ -151,7 +152,7 @@ export class RecommendationsExecutor {
 
   /**
    * Execute placeholder customization - direct implementation (no Firebase call needed)
-   */
+    */
   async executePlaceholderCustomization(
     params: CustomizePlaceholdersParams,
     requestId: string
@@ -163,7 +164,8 @@ export class RecommendationsExecutor {
     
     try {
       // Use our direct implementation instead of Firebase function
-      const result = await this.placeholderService.customizePlaceholders(params);
+      // TODO: Implement placeholder customization
+      const result = { success: false, error: 'Placeholder customization not yet implemented' };
 
       return {
         success: true,
@@ -187,7 +189,7 @@ export class RecommendationsExecutor {
 
   /**
    * Validate parameters for getRecommendations
-   */
+    */
   private validateGetRecommendationsParams(params: GetRecommendationsParams): void {
     if (!params.jobId || params.jobId.trim() === '') {
       throw this.createError(
@@ -219,7 +221,7 @@ export class RecommendationsExecutor {
 
   /**
    * Validate parameters for applyImprovements
-   */
+    */
   private validateApplyImprovementsParams(params: ApplyImprovementsParams): void {
     if (!params.jobId || params.jobId.trim() === '') {
       throw this.createError(
@@ -263,7 +265,7 @@ export class RecommendationsExecutor {
 
   /**
    * Validate parameters for previewImprovement
-   */
+    */
   private validatePreviewImprovementParams(params: PreviewImprovementParams): void {
     if (!params.jobId || params.jobId.trim() === '') {
       throw this.createError(
@@ -286,7 +288,7 @@ export class RecommendationsExecutor {
 
   /**
    * Validate parameters for customizePlaceholders
-   */
+    */
   private validateCustomizePlaceholdersParams(params: CustomizePlaceholdersParams): void {
     if (!params.jobId || params.jobId.trim() === '') {
       throw this.createError(
@@ -352,7 +354,7 @@ export class RecommendationsExecutor {
 
   /**
    * Create a standardized recommendation error
-   */
+    */
   private createError(
     type: RecommendationErrorType,
     message: string,
@@ -369,7 +371,7 @@ export class RecommendationsExecutor {
 
   /**
    * Sanitize parameters for logging (remove sensitive data)
-   */
+    */
   private sanitizeParamsForLogging(params: any): any {
     const sanitized = { ...params };
     
@@ -383,7 +385,7 @@ export class RecommendationsExecutor {
 
   /**
    * Check if Firebase functions are available
-   */
+    */
   async checkFirebaseFunctionsAvailability(): Promise<boolean> {
     try {
       const { getFunctions } = await import('firebase/functions');
@@ -397,7 +399,7 @@ export class RecommendationsExecutor {
 
   /**
    * Get execution context for debugging
-   */
+    */
   getExecutionContext(requestId: string): {
     requestId: string;
     timestamp: number;

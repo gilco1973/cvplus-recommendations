@@ -11,7 +11,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0 - Full Implementation
- */
+  */
 
 import type { 
   AIRequestParams, 
@@ -248,7 +248,7 @@ export class AIIntegrationService {
 
   /**
    * Generate comprehensive CV recommendations using Claude AI
-   */
+    */
   async generateRecommendations(params: AIRequestParams): Promise<AIResponse> {
     const startTime = Date.now();
     
@@ -284,7 +284,7 @@ export class AIIntegrationService {
 
   /**
    * Analyze CV-role compatibility and provide matching insights
-   */
+    */
   async analyzeRoleMatch(
     cvData: CVParsedData, 
     targetRole: string, 
@@ -326,7 +326,7 @@ export class AIIntegrationService {
 
   /**
    * Enhance specific CV content with AI-powered improvements
-   */
+    */
   async enhanceContent(
     originalContent: string,
     section: CVSection,
@@ -370,7 +370,7 @@ export class AIIntegrationService {
 
   /**
    * Perform comprehensive skills gap analysis
-   */
+    */
   async analyzeSkillsGap(
     currentSkills: string[],
     roleRequirements: string[],
@@ -414,7 +414,7 @@ export class AIIntegrationService {
 
   /**
    * Check API availability and quotas
-   */
+    */
   getServiceHealth() {
     const quota = this.rateLimiter.getRemainingQuota();
     return {
@@ -429,7 +429,7 @@ export class AIIntegrationService {
 
   /**
    * Reset rate limiting quotas (for testing)
-   */
+    */
   resetQuota(): void {
     this.rateLimiter.resetQuota();
   }

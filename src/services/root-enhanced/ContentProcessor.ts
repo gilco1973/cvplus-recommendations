@@ -3,11 +3,11 @@ import { ServiceFactory, PlaceholderReplacementMap, CVRecommendation } from './c
 /**
  * ContentProcessor - Handles content processing and placeholder management
  * Responsible for customizing content, managing placeholders, and content validation
- */
+  */
 export class ContentProcessor {
   /**
    * Processes content with placeholder replacements
-   */
+    */
   processPlaceholderContent(
     content: string,
     placeholderValues: PlaceholderReplacementMap
@@ -39,7 +39,7 @@ export class ContentProcessor {
 
   /**
    * Customizes a recommendation with user-provided placeholder values
-   */
+    */
   customizeRecommendation(
     recommendation: CVRecommendation,
     placeholderValues: PlaceholderReplacementMap
@@ -66,7 +66,7 @@ export class ContentProcessor {
 
   /**
    * Generates content preview for a recommendation
-   */
+    */
   generateContentPreview(recommendation: CVRecommendation): {
     beforeContent: string;
     afterContent: string;
@@ -85,7 +85,7 @@ export class ContentProcessor {
 
   /**
    * Checks if content contains placeholder syntax
-   */
+    */
   private containsPlaceholders(content: string): boolean {
     const placeholderPattern = /\{\{[^}]+\}\}/g;
     return placeholderPattern.test(content);
@@ -93,7 +93,7 @@ export class ContentProcessor {
 
   /**
    * Extracts placeholders from content
-   */
+    */
   extractPlaceholders(content: string): string[] {
     const placeholderPattern = /\{\{([^}]+)\}\}/g;
     const placeholders: string[] = [];
@@ -108,7 +108,7 @@ export class ContentProcessor {
 
   /**
    * Validates content quality and completeness
-   */
+    */
   validateContentQuality(content: string): {
     isValid: boolean;
     score: number;
@@ -158,7 +158,7 @@ export class ContentProcessor {
 
   /**
    * Formats content for display with proper line breaks and formatting
-   */
+    */
   formatContentForDisplay(content: string): string {
     return content
       .replace(/\n\n/g, '<br><br>')
@@ -169,7 +169,7 @@ export class ContentProcessor {
 
   /**
    * Strips formatting from content for plain text use
-   */
+    */
   stripFormatting(content: string): string {
     return content
       .replace(/<br\s*\/?>/gi, '\n')

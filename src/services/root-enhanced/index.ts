@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @migrated 2025-08-29
- */
+  */
 
 // Core orchestration services
 export { ActionOrchestrator } from './ActionOrchestrator';

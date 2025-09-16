@@ -1,11 +1,11 @@
 /**
  * Chat service for RAG-based conversations
- */
+  */
 
 import OpenAI from 'openai';
-import { config } from '@cvplus/core/config/environment';
-import { enhancedDbService } from '@cvplus/core/services/enhanced-db.service';
-import { ChatMessage, UserRAGProfile } from '@cvplus/core/types/enhanced-models';
+import { config } from '../../config/environment';
+import { enhancedDbService } from '../../services/enhanced-db.service';
+import { ChatMessage, UserRAGProfile } from '../../types/enhanced-models';
 // TODO: Import embedding service once it's moved to recommendations module
 const embeddingService = {
   generateEmbedding: async (_text: string): Promise<number[]> => {
@@ -41,7 +41,7 @@ export class ChatService {
   
   /**
    * Process a chat message and generate response
-   */
+    */
   async processMessage(
     sessionId: string,
     message: string,
@@ -103,7 +103,7 @@ export class ChatService {
   
   /**
    * Initialize a new chat session
-   */
+    */
   async initializeSession(
     jobId: string,
     _userId?: string,
@@ -142,7 +142,7 @@ export class ChatService {
   
   /**
    * Build context from retrieved chunks
-   */
+    */
   private buildContext(chunks: any[]): string {
     if (chunks.length === 0) {
       return 'No specific context found.';
@@ -158,7 +158,7 @@ export class ChatService {
   
   /**
    * Build system prompt with context
-   */
+    */
   private buildSystemPrompt(profile: UserRAGProfile, context: string): string {
     const basePrompt = profile.settings?.systemPrompt || this.getDefaultSystemPrompt();
     
@@ -181,7 +181,7 @@ Important guidelines:
   
   /**
    * Generate response using OpenAI
-   */
+    */
   private async generateResponse(
     userMessage: string,
     systemPrompt: string,
@@ -213,14 +213,14 @@ Important guidelines:
   
   /**
    * Get default system prompt
-   */
+    */
   private getDefaultSystemPrompt(): string {
     return `You are an AI assistant representing a professional's CV. You have access to their complete professional background, experience, skills, and achievements. Your role is to answer questions about their qualifications, experience, and professional background in a helpful and accurate manner.`;
   }
   
   /**
    * Generate initial greeting
-   */
+    */
   private generateGreeting(): string {
     const greetings = [
       "Hello! I'm here to answer any questions you might have about this professional's background and experience.",
@@ -234,7 +234,7 @@ Important guidelines:
   
   /**
    * Validate chat message
-   */
+    */
   validateMessage(message: string): { valid: boolean; error?: string } {
     if (!message || message.trim().length === 0) {
       return { valid: false, error: 'Message cannot be empty' };
@@ -263,7 +263,7 @@ Important guidelines:
   
   /**
    * Get suggested questions based on CV content
-   */
+    */
   async getSuggestedQuestions(vectorNamespace: string, _jobId: string): Promise<string[]> {
     // Query for diverse chunks to understand CV content
     const chunks = await embeddingService.querySimilarChunks(

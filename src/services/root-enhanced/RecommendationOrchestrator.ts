@@ -9,7 +9,7 @@ import { ParsedCV } from './compatibility';
 /**
  * RecommendationOrchestrator - Handles core recommendation generation workflow
  * Extracted from ImprovementOrchestrator to comply with 200-line rule
- */
+  */
 export class RecommendationOrchestrator {
   private analyzer: CVAnalyzer;
   private generator: RecommendationGenerator;
@@ -26,7 +26,7 @@ export class RecommendationOrchestrator {
 
   /**
    * Orchestrates the complete recommendation generation process
-   */
+    */
   async generateRecommendations(
     jobId: string,
     userId: string,
@@ -92,7 +92,7 @@ export class RecommendationOrchestrator {
 
   /**
    * Executes the core recommendation generation logic
-   */
+    */
   private async executeRecommendationGeneration(
     jobId: string,
     userId: string,
@@ -151,7 +151,7 @@ export class RecommendationOrchestrator {
 
   /**
    * Creates a cache key for requests
-   */
+    */
   private createRequestKey(
     jobId: string,
     userId: string,
@@ -164,7 +164,7 @@ export class RecommendationOrchestrator {
 
   /**
    * Formats errors for user consumption
-   */
+    */
   private formatError(error: any): Error {
     if (error.message.includes('timeout')) {
       return new Error('CV analysis timed out. This usually occurs with very large or complex CVs.');
@@ -177,28 +177,28 @@ export class RecommendationOrchestrator {
 
   /**
    * Clears all active requests (for testing)
-   */
+    */
   clearActiveRequests(): void {
     this.activeRequests.clear();
   }
 
   /**
    * Gets active request count (for monitoring)
-   */
+    */
   getActiveRequestCount(): number {
     return this.activeRequests.size;
   }
 
   /**
    * Gets active request keys (for debugging)
-   */
+    */
   getActiveRequestKeys(): string[] {
     return Array.from(this.activeRequests.keys());
   }
 
   /**
    * Forces cleanup of a specific request
-   */
+    */
   forceCleanupRequest(requestKey: string): boolean {
     return this.activeRequests.delete(requestKey);
   }
