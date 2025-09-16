@@ -29,7 +29,7 @@ export { firebaseFunctionsAdapter } from '../../src/integration/firebase/functio
  * Health check function for the recommendations package
  */
 import { onCall } from 'firebase-functions/v2/https';
-import { corsOptions } from '../../../../functions/src/config/cors';
+import { corsOptions } from '@cvplus/core/config/cors';
 
 export const recommendationsHealthCheck = onCall(
   {

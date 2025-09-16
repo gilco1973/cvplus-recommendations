@@ -11,10 +11,11 @@ import OpenAI from 'openai';
 import * as admin from 'firebase-admin';
 import { config } from '../config/environment';
 import { ParsedCV } from '../types/enhanced-models';
-import { RAGEmbedding, EmbeddingMetadata, CVSection, ContentType } from '../types/portal';
+import { RAGEmbedding, EmbeddingMetadata, ContentType } from '../types/rag-search.types';
+import { CVSection } from '../types';
 import { logger } from 'firebase-functions';
-import { ChunkingUtils, ChunkResult } from './cv-generator/chunking/ChunkingUtils';
-import { EmbeddingHelpers } from './cv-generator/embedding/EmbeddingHelpers';
+import { ChunkingUtils, ChunkResult } from '@cvplus/processing/cv-generator/chunking/ChunkingUtils';
+import { EmbeddingHelpers } from '@cvplus/processing/cv-generator/embedding/EmbeddingHelpers';
 import { vectorDatabase, VectorInput, SearchOptions } from './vector-database.service';
 
 /**

@@ -1,5 +1,5 @@
 import { onCall } from 'firebase-functions/v2/https';
-import { corsOptions } from '../../../../functions/src/config/cors';
+import { corsOptions } from '@cvplus/core/config/cors';
 import { 
   ImprovementOrchestrator,
   ValidationEngine

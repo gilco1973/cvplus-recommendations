@@ -164,9 +164,9 @@ export class MigrationAdapter {
    */
   private async fallbackToLegacy(operation: string, request: CallableRequest): Promise<any> {
     try {
-      // Import legacy services dynamically
-      const { ImprovementOrchestrator } = await import('../../../../functions/src/services/recommendations/ImprovementOrchestrator');
-      const { ValidationEngine } = await import('../../../../functions/src/services/recommendations/ValidationEngine');
+      // Import migrated services from local module
+      const { ImprovementOrchestrator } = await import('../../src/services/root-enhanced/ImprovementOrchestrator');
+      const { ValidationEngine } = await import('../../src/services/validation/ValidationEngine');
       
       const orchestrator = new ImprovementOrchestrator();
       const validator = new ValidationEngine();

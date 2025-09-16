@@ -17,7 +17,8 @@
 
 import { logger } from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { RAGEmbedding, EmbeddingMetadata, CVSection } from '@cvplus/core/types/portal';
+import { RAGEmbedding, EmbeddingMetadata } from '../../types/rag-search.types';
+import { CVSection } from '../../types';
 
 // ============================================================================
 // INTERFACES AND TYPES

@@ -1,7 +1,10 @@
 /**
- * Portal Types
- * Type definitions for the portal/dashboard interfaces
+ * RAG/AI Types
+ * Type definitions for the recommendations AI and search functionality
  */
+
+// Import CVSection from main types to avoid duplication
+import { CVSection } from './index';
 
 export interface RAGEmbedding {
   id: string;
@@ -37,43 +40,8 @@ export enum ContentType {
   EXAMPLE = 'example'
 }
 
-export enum CVSection {
-  PERSONAL_INFO = 'personal_info',
-  PROFESSIONAL_SUMMARY = 'professional_summary', 
-  EXPERIENCE = 'experience',
-  SKILLS = 'skills',
-  EDUCATION = 'education',
-  ACHIEVEMENTS = 'achievements',
-  CERTIFICATIONS = 'certifications',
-  PROJECTS = 'projects',
-  LANGUAGES = 'languages',
-  REFERENCES = 'references'
-}
-
-export interface PortalUser {
-  id: string;
-  email: string;
-  name: string;
-  role: UserRole;
-  permissions: Permission[];
-  createdAt: Date;
-  lastLoginAt?: Date;
-}
-
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-  PREMIUM = 'premium',
-  GUEST = 'guest'
-}
-
-export enum Permission {
-  READ_CV = 'read_cv',
-  WRITE_CV = 'write_cv',
-  DELETE_CV = 'delete_cv',
-  ADMIN_PORTAL = 'admin_portal',
-  PREMIUM_FEATURES = 'premium_features'
-}
+// Note: CVSection is imported from main types file to avoid duplication
+// User management types moved to @cvplus/auth where they belong
 
 export interface SearchRequest {
   query: string;

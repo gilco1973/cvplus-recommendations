@@ -1,5 +1,5 @@
 import { onCall } from 'firebase-functions/v2/https';
-import { corsOptions } from '../../../../functions/src/config/cors';
+import { corsOptions } from '@cvplus/core/config/cors';
 import { 
   AIIntegrationService,
   RecommendationEngineService,
@@ -7,7 +7,8 @@ import {
   ValidationEngine,
   ImprovementOrchestrator
 } from '../../src/services/root-enhanced';
-import { getJobData } from '../../../../functions/src/services/jobs/job-processing';
+// TODO: Replace with proper service injection when job processing service is available
+import { getFirestore } from 'firebase-admin/firestore';
 import type { CVParsedData } from '@cvplus/core';
 
 /**
@@ -55,8 +56,19 @@ export const getRecommendations = onCall(
       const careerService = new CareerDevelopmentService();
 
       // Get CV data for the job
-      const cvData: CVParsedData = await getJobData(jobId, authValidation.userId);
-      
+      const db = getFirestore();
+      const jobDoc = await db.collection('jobs').doc(jobId).get();
+
+      if (!jobDoc.exists) {
+        throw new Error(`Job ${jobId} not found`);
+      }
+
+      const jobData = jobDoc.data();
+      if (jobData?.userId !== authValidation.userId) {
+        throw new Error('Unauthorized access to job');
+      }
+
+      const cvData: CVParsedData = jobData?.parsedData;
       if (!cvData) {
         throw new Error(`CV data not found for job ${jobId}`);
       }

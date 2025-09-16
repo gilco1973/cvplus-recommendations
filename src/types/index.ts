@@ -8,28 +8,14 @@
  * @version 1.0.0
  */
 
-// TEMPORARY: Inline types until @cvplus/core is properly built
-export interface CVParsedData {
-  personalInfo: {
-    name: string;
-    title?: string; // Add title field
-    email: string;
-    phone: string;
-    location: string;
-    summary?: string;
-  };
-  summary?: string; // Add top-level summary
-  professionalSummary: string;
-  experience: WorkExperience[]; // Use the proper interface
-  workExperience: WorkExperience[]; // Keep both for compatibility
-  education: Education[];
-  skills: Array<{
-    name: string;
-    skills: string[];
-  }> | string[];
-  achievements: string[];
-  certifications: Certification[];
-  languages?: string[];
+// Import core types instead of duplicating
+import type { ParsedCV } from '@cvplus/core/types/job';
+
+// Extend ParsedCV with recommendation-specific properties
+export interface CVParsedData extends ParsedCV {
+  professionalSummary?: string;
+  workExperience?: WorkExperience[]; // Keep for compatibility
+  achievements?: string[];
   projects?: string[];
   // Extended properties for transformation results
   improvedCV?: CVParsedData;
@@ -42,7 +28,7 @@ export interface CVParsedData {
   comparisonReport?: any;
 }
 
-// Additional types for career development service
+// Enhanced types that extend core CV types with recommendation-specific fields
 export interface Skill {
   name: string;
   level: SkillLevel;
@@ -50,34 +36,38 @@ export interface Skill {
   yearsOfExperience?: number;
 }
 
+// Enhanced work experience with additional recommendation-specific fields
 export interface WorkExperience {
   title: string;
-  position?: string;
+  position?: string; // alias for title
   company: string;
   startDate: string;
   endDate?: string;
-  duration: string;
+  duration: string; // calculated field for recommendations
   description: string;
-  responsibilities?: string[];
-  achievements?: string[];
-  skills?: string[];
-  isCurrent?: boolean;
+  responsibilities?: string[]; // detailed breakdown for analysis
+  achievements?: string[]; // quantifiable achievements for recommendations
+  skills?: string[]; // extracted skills for matching
+  isCurrent?: boolean; // current employment status
 }
 
+// Enhanced education with GPA and honors for detailed analysis
 export interface Education {
   degree: string;
   institution: string;
   year: string;
-  gpa?: string;
-  honors?: string[];
+  field?: string; // inherited from core, optional here too
+  gpa?: string; // recommendation-specific for analysis
+  honors?: string[]; // recommendation-specific achievements
 }
 
+// Enhanced certification with expiry and credential tracking
 export interface Certification {
   name: string;
   issuer: string;
   date: string;
-  expiryDate?: string;
-  credentialId?: string;
+  expiryDate?: string; // recommendation-specific for validity tracking
+  credentialId?: string; // recommendation-specific for verification
 }
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';

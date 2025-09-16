@@ -16,7 +16,7 @@ export { RecommendationGenerator } from './RecommendationGenerator';
 // Content processing and validation
 export { ContentProcessor } from './ContentProcessor';
 export { CVAnalyzer } from './CVAnalyzer';
-export { ValidationEngine } from './ValidationEngine';
+export { ValidationEngine } from '../validation/ValidationEngine';
 export { TransformationApplier } from './TransformationApplier';
 
 // Caching and performance
