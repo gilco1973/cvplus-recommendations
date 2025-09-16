@@ -9,5 +9,6 @@
 
 export { RecommendationsOrchestrator } from './recommendations-orchestrator';
 export { RecommendationsExecutor } from './recommendations-executor';
-export { PerformanceMetricsManager } from './performance-metrics-manager';
+// Performance metrics moved to @cvplus/analytics
+// export { PerformanceMetricsManager } from './performance-metrics-manager';
 export { CacheOperationsManager } from './cache-operations-manager';

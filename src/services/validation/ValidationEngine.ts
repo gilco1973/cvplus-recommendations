@@ -3,7 +3,7 @@
  * Refactored to use composition instead of monolithic implementation
   */
 import { RequestValidator } from './RequestValidator';
-import { AuthValidator } from './AuthValidator';
+import { AuthValidator } from '@cvplus/auth/firebase';
 import { RecommendationValidator } from './RecommendationValidator';
 import { CVValidator } from './CVValidator';
 import { CVRecommendation, ParsedCV } from '../root-enhanced/compatibility';

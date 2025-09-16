@@ -11,7 +11,7 @@
 import { generateId } from '../../utils/core';
 import { CacheService } from '../cache.service';
 import { RecommendationsExecutor } from './recommendations-executor';
-import { PerformanceMetricsManager } from './performance-metrics-manager';
+import { PerformanceMetricsManager } from '@cvplus/analytics';
 import { CacheOperationsManager } from './cache-operations-manager';
 import { retryUtil } from '../../utils/retry';
 import type {

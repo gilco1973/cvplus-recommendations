@@ -10,4 +10,4 @@
 export { CacheCoreService } from './cache-core-service';
 export { MemoryManager } from './memory-manager';
 export { DistributedCacheManager } from './distributed-cache-manager';
-export { CacheStatsManager } from './cache-stats-manager';
+export { CacheStatsManager } from '@cvplus/analytics';

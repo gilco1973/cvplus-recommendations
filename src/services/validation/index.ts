@@ -4,7 +4,7 @@
   */
 
 export { RequestValidator } from './RequestValidator';
-export { AuthValidator } from './AuthValidator';
+export { AuthValidator } from '@cvplus/auth/firebase';
 export { RecommendationValidator } from './RecommendationValidator';
 export { CVValidator } from './CVValidator';
 
