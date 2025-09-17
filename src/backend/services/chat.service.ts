@@ -5,7 +5,7 @@
 import OpenAI from 'openai';
 import { config } from '../../config/environment';
 import { enhancedDbService } from '../../services/enhanced-db.service';
-import { UserRAGProfile } from '@cvplus/cv-processing';
+import { UserRAGProfile } from '@cvplus/processing';
 
 // ChatMessage interface - TODO: Move to shared types
 interface ChatMessage {
