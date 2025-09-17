@@ -42,7 +42,7 @@ export { RecommendationEngine } from './engine/RecommendationEngine';
 // UTILITIES
 // ============================================================================
 
-export { retryUtil, RetryUtil } from './utils/retry';
+export { retryUtil, RetryUtil } from '@cvplus/core/utils/retry';
 
 // ============================================================================
 // BACKEND INTEGRATION

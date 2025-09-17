@@ -5,7 +5,16 @@
 import OpenAI from 'openai';
 import { config } from '../../config/environment';
 import { enhancedDbService } from '../../services/enhanced-db.service';
-import { ChatMessage, UserRAGProfile } from '../../types/enhanced-models';
+import { UserRAGProfile } from '@cvplus/cv-processing';
+
+// ChatMessage interface - TODO: Move to shared types
+interface ChatMessage {
+  id: string;
+  content: string;
+  role: 'user' | 'assistant' | 'system';
+  timestamp: Date;
+  metadata?: Record<string, any>;
+}
 // TODO: Import embedding service once it's moved to recommendations module
 const embeddingService = {
   generateEmbedding: async (_text: string): Promise<number[]> => {

@@ -1,8 +1,8 @@
 import { CVTransformationService, CVRecommendation, ParsedCV } from './compatibility';
 import { RecommendationType, RecommendationCategory, CVSection, ActionType, ImpactLevel } from '../../types';
-import { CircuitBreakerManager } from './CircuitBreakerCore';
-import { RetryManager } from './RetryManager';
-import { TimeoutManager } from './TimeoutManager';
+import { CircuitBreakerManager } from '@cvplus/core/utils/resilience/CircuitBreakerCore';
+import { RetryManager } from '@cvplus/core/utils/resilience/RetryManager';
+import { TimeoutManager } from '@cvplus/core/utils/resilience/TimeoutManager';
 
 /**
  * RecommendationGenerator - Handles AI-powered recommendation generation

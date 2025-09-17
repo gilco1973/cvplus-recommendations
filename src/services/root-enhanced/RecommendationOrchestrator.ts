@@ -1,8 +1,8 @@
 import { CVAnalyzer } from './CVAnalyzer';
 import { RecommendationGenerator } from './RecommendationGenerator';
 import { TransformationApplier } from './TransformationApplier';
-import { CacheManager } from './CacheManager';
-import { CacheKeyManager } from './CacheKeyManager';
+import { CacheManager } from '@cvplus/core/services/cache/CacheManager';
+import { CacheKeyManager } from '@cvplus/core/services/cache/CacheKeyManager';
 import { CVRecommendation } from './compatibility';
 import { ParsedCV } from './compatibility';
 

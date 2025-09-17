@@ -8,12 +8,12 @@
  * @version 1.0.0
   */
 
-import { generateId } from '../../utils/core';
+import { generateId } from '@cvplus/core/utils/crypto';
 import { CacheService } from '../cache.service';
 import { RecommendationsExecutor } from './recommendations-executor';
 import { PerformanceMetricsManager } from '@cvplus/analytics';
 import { CacheOperationsManager } from './cache-operations-manager';
-import { retryUtil } from '../../utils/retry';
+import { retryUtil } from '@cvplus/core/utils/retry';
 import type {
   GetRecommendationsParams,
   GetRecommendationsResponse,

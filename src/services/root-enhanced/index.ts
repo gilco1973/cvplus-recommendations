@@ -19,12 +19,12 @@ export { CVAnalyzer } from './CVAnalyzer';
 export { ValidationEngine } from '../validation/ValidationEngine';
 export { TransformationApplier } from './TransformationApplier';
 
-// Caching and performance
-export { CacheManager } from './CacheManager';
-export { CacheKeyManager } from './CacheKeyManager';
-export { CircuitBreaker, CircuitBreakerManager } from './CircuitBreakerCore';
-export { RetryManager } from './RetryManager';
-export { TimeoutManager } from './TimeoutManager';
+// Caching and performance (migrated to Core)
+export { CacheManager } from '@cvplus/core/services/cache/CacheManager';
+export { CacheKeyManager } from '@cvplus/core/services/cache/CacheKeyManager';
+export { CircuitBreaker, CircuitBreakerManager } from '@cvplus/core/utils/resilience/CircuitBreakerCore';
+export { RetryManager } from '@cvplus/core/utils/resilience/RetryManager';
+export { TimeoutManager } from '@cvplus/core/utils/resilience/TimeoutManager';
 
 // Re-export common services for backward compatibility
 export { AIIntegrationService } from '../ai-integration.service';
